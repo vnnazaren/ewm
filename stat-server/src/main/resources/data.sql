@@ -1,0 +1,16 @@
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/1', '192.168.0.1', '2024-05-01 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/1', '192.168.0.2', '2024-05-02 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/1', '192.168.0.1', '2024-05-03 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/1', '192.168.0.2', '2024-05-04 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/1', '192.168.0.1', '2024-05-05 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/1', '192.168.0.2', '2024-05-06 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/1', '192.168.0.1', '2024-05-07 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/1', '192.168.0.2', '2024-05-08 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/2', '192.168.0.1', '2024-05-09 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/2', '192.168.0.2', '2024-05-10 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/2', '192.168.0.1', '2024-05-11 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/2', '192.168.0.2', '2024-05-12 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/2', '192.168.0.1', '2024-05-13 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/2', '192.168.0.2', '2024-05-14 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/2', '192.168.0.1', '2024-05-15 02:36:19.000000');
+INSERT INTO public.events (app, uri, ip_address, event_date) VALUES ('ewm-main-service', '/events/2', '192.168.0.2', '2024-05-16 02:36:19.000000');
