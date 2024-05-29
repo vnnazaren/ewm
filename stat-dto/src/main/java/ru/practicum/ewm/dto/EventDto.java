@@ -1,18 +1,20 @@
-package ru.practicum.ewm.event.dto;
+package ru.practicum.ewm.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Класс DTO класса получения статистики EVENT
+ */
 @Getter
 @Setter
 @ToString
 @Builder
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDtoRequest {
+public class EventDto {
 
     private String app;
 

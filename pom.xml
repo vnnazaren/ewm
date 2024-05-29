@@ -12,6 +12,7 @@
 
     <modules>
         <module>stat-client</module>
+        <module>stat-dto</module>
         <module>stat-server</module>
     </modules>
 
@@ -160,6 +161,7 @@
             </plugins>
         </pluginManagement>
     </build>
+
     <profiles>
         <profile>
             <id>check</id>
@@ -196,5 +198,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>
