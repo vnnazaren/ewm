@@ -36,7 +36,10 @@ public class BaseClient {
         return responseBuilder.build();
     }
 
-    private <T> ResponseEntity<Object> makeAndSendRequest(HttpMethod method, String path, @Nullable Map<String, Object> parameters, @Nullable T body) {
+    private <T> ResponseEntity<Object> makeAndSendRequest(HttpMethod method,
+                                                          String path,
+                                                          @Nullable Map<String, Object> parameters,
+                                                          @Nullable T body) {
         HttpEntity<T> requestEntity = body == null ? null : new HttpEntity<>(body);
 
         ResponseEntity<Object> ewmServerResponse;

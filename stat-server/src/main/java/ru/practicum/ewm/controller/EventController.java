@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.dto.EventDto;
 import ru.practicum.ewm.dto.StatDto;
@@ -33,8 +34,11 @@ public class EventController {
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
             @RequestParam(defaultValue = "false") boolean unique,
-            @RequestParam List<String> uris) {
+            @RequestParam @Nullable List<String> uris) {
         log.info("GET /stats - uris: {}, unique: {}, start: {}, end: {}", uris, unique, start, end);
+        if (uris == null) {
+            uris = List.of();
+        }
         return eventService.getEventsInfo(uris, unique, start, end);
     }
 }

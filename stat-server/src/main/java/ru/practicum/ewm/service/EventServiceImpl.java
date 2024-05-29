@@ -25,7 +25,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<StatDto> getEventsInfo(List<String> uris, Boolean unique, LocalDateTime start, LocalDateTime end) {
+    public List<StatDto> getEventsInfo(List<String> uris,
+                                       Boolean unique,
+                                       LocalDateTime start,
+                                       LocalDateTime end) {
 
         if (uris.isEmpty()) {
             if (unique) {

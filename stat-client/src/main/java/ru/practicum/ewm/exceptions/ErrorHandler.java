@@ -14,10 +14,7 @@ import javax.validation.ConstraintViolationException;
 public class ErrorHandler {
 
     @ExceptionHandler({ConstraintViolationException.class,
-            MethodArgumentNotValidException.class,/*
-            MissingRequestHeaderException.class,
-            MissingServletRequestParameterException.class,
-            ValidationException.class,*/
+            MethodArgumentNotValidException.class,
             IllegalArgumentException.class})
     public ResponseEntity<ErrorMessage> handleValidation(Exception e) {
         log.info("HttpStatus.BAD_REQUEST (400). {}", e.getMessage());

@@ -1,0 +1,675 @@
+{
+	"info": {
+		"_postman_id": "6d2b5da4-0079-4db1-aa8f-7c3914b5bbc1",
+		"name": "Yandex Practicum diploma",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34698198"
+	},
+	"item": [
+		{
+			"name": "Stat Server",
+			"item": [
+				{
+					"name": "post hits",
+					"item": [
+						{
+							"name": "hit - ep1 - ip1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"app\": \"ewm-main-service\",\n  \"uri\": \"/events/1\",\n  \"ip\": \"192.168.0.1\",\n  \"timestamp\": \"2024-05-30 12:00:05\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/hit",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"hit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "hit - ep1 - ip1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"app\": \"ewm-main-service\",\n  \"uri\": \"/events/1\",\n  \"ip\": \"192.168.0.1\",\n  \"timestamp\": \"2024-05-30 12:00:10\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/hit",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"hit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "hit - ep2 - ip2",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"app\": \"ewm-main-service\",\n  \"uri\": \"/events/2\",\n  \"ip\": \"192.168.0.2\",\n  \"timestamp\": \"2024-05-30 12:00:15\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/hit",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"hit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "hit - ep2 - ip2",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"app\": \"ewm-main-service\",\n  \"uri\": \"/events/2\",\n  \"ip\": \"192.168.0.2\",\n  \"timestamp\": \"2024-05-30 12:00:20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/hit",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"hit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "hit - ep3 - ip1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"app\": \"ewm-main-service\",\n  \"uri\": \"/events/3\",\n  \"ip\": \"192.168.0.1\",\n  \"timestamp\": \"2024-05-30 12:00:25\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/hit",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"hit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "hit - ep3 - ip2",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"app\": \"ewm-main-service\",\n  \"uri\": \"/events/3\",\n  \"ip\": \"192.168.0.2\",\n  \"timestamp\": \"2024-05-30 12:00:30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/hit",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"hit"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {",
+									"     pm.expect(pm.response.code).to.equal(201);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "get stats",
+					"item": [
+						{
+							"name": "stats unique IP",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/stats?start=2022-09-06 11:00:23&end=2024-09-06 11:00:23&uris=/events/1&uris=/events/2&uris=/events/3&unique=true",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"stats"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "2022-09-06 11:00:23"
+										},
+										{
+											"key": "end",
+											"value": "2024-09-06 11:00:23"
+										},
+										{
+											"key": "uris",
+											"value": "/events/1"
+										},
+										{
+											"key": "uris",
+											"value": "/events/2"
+										},
+										{
+											"key": "uris",
+											"value": "/events/3"
+										},
+										{
+											"key": "unique",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "stats unique IP empty uri",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/stats?start=2022-09-06 11:00:23&end=2024-09-06 11:00:23&unique=true",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"stats"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "2022-09-06 11:00:23"
+										},
+										{
+											"key": "end",
+											"value": "2024-09-06 11:00:23"
+										},
+										{
+											"key": "unique",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "stats all",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/stats?start=2022-09-06 11:00:23&end=2024-09-06 11:00:23&uris=/events/1&uris=/events/2&uris=/events/3&unique=false",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"stats"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "2022-09-06 11:00:23"
+										},
+										{
+											"key": "end",
+											"value": "2024-09-06 11:00:23"
+										},
+										{
+											"key": "uris",
+											"value": "/events/1"
+										},
+										{
+											"key": "uris",
+											"value": "/events/2"
+										},
+										{
+											"key": "uris",
+											"value": "/events/3"
+										},
+										{
+											"key": "unique",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "stats all empty uri",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:9090/stats?start=2022-09-06 11:00:23&end=2024-09-06 11:00:23&unique=false",
+									"host": [
+										"localhost"
+									],
+									"port": "9090",
+									"path": [
+										"stats"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "2022-09-06 11:00:23"
+										},
+										{
+											"key": "end",
+											"value": "2024-09-06 11:00:23"
+										},
+										{
+											"key": "unique",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has the required fields - app, uri, and hits\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('array');",
+									"  responseData.forEach(function(item) {",
+									"    pm.expect(item).to.have.property('app');",
+									"    pm.expect(item).to.have.property('uri');",
+									"    pm.expect(item).to.have.property('hits');",
+									"  });",
+									"});",
+									"",
+									"pm.test(\"Hits is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    responseData.forEach(function(data) {",
+									"        pm.expect(data.hits).to.be.a('number').and.to.satisfy((hits) => hits >= 0, \"Hits should be a non-negative integer\");",
+									"    });",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

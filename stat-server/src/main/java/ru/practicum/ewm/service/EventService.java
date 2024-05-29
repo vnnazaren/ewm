@@ -10,7 +10,11 @@ import java.util.List;
  * Интерфейс класса-сервиса EVENT
  */
 public interface EventService {
+
     void saveEvent(EventDto eventDtoRequest);
 
-    List<StatDto> getEventsInfo(List<String> uris, Boolean unique, LocalDateTime start, LocalDateTime end);
+    List<StatDto> getEventsInfo(List<String> uris,
+                                Boolean unique,
+                                LocalDateTime start,
+                                LocalDateTime end);
 }

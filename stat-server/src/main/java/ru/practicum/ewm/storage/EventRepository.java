@@ -14,38 +14,34 @@ import java.util.List;
  */
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    @Query(value = "select new ru.practicum.ewm.model.Stat(h.app, h.uri, count(h.id)) " +
-            " from Event as h " +
-            " where h.eventDate between :start and :end " +
-            " group by h.app, h.uri"
-    )
+    @Query(value = "select new ru.practicum.ewm.model.Stat(e.app, e.uri, count(e.id)) " +
+            " from Event as e " +
+            " where e.eventDate between :start and :end " +
+            " group by e.app, e.uri")
     List<Stat> getHits(@Param("start") LocalDateTime start,
                        @Param("end") LocalDateTime end);
 
-    @Query(value = "select new ru.practicum.ewm.model.Stat(h.app, h.uri, count(h.id)) " +
-            " from Event as h " +
-            " where h.eventDate between :start and :end " +
-            " group by h.app, h.uri, h.ipAddress"
-    )
+    @Query(value = "select new ru.practicum.ewm.model.Stat(e.app, e.uri, count(distinct e.ipAddress)) " +
+            " from Event as e " +
+            " where e.eventDate between :start and :end " +
+            " group by e.app, e.uri")
     List<Stat> getUniqueHits(@Param("start") LocalDateTime start,
                              @Param("end") LocalDateTime end);
 
-    @Query(value = "select new ru.practicum.ewm.model.Stat(h.app, h.uri, count(h.id)) " +
-            " from Event as h " +
-            " where h.uri in :uris " +
-            "   and h.eventDate between :start and :end " +
-            " group by h.app, h.uri"
-    )
+    @Query(value = "select new ru.practicum.ewm.model.Stat(e.app, e.uri, count(e.id)) " +
+            " from Event as e " +
+            " where e.uri in :uris " +
+            "   and e.eventDate between :start and :end " +
+            " group by e.app, e.uri")
     List<Stat> getHitsByUris(@Param("uris") List<String> uris,
                              @Param("start") LocalDateTime start,
                              @Param("end") LocalDateTime end);
 
-    @Query(value = "select new ru.practicum.ewm.model.Stat(h.app, h.uri, count(h.id)) " +
-            " from Event as h " +
-            " where h.uri in :uris " +
-            "   and h.eventDate between :start and :end " +
-            " group by h.app, h.uri, h.ipAddress"
-    )
+    @Query(value = "select new ru.practicum.ewm.model.Stat(e.app, e.uri, count(distinct e.ipAddress)) " +
+            " from Event as e " +
+            " where e.uri in :uris " +
+            "   and e.eventDate between :start and :end " +
+            " group by e.app, e.uri")
     List<Stat> getUniqueHitsByUris(@Param("uris") List<String> uris,
                                    @Param("start") LocalDateTime start,
                                    @Param("end") LocalDateTime end);
