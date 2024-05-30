@@ -1,36 +1,45 @@
+# версия Docker Compose
 version: '3.1'
+
+# имена и описания контейнеров, которые должны быть развёрнуты
 services:
-  stats-server:
-    build: stat-server
-    container_name: stat-server
-    ports:
-      - "9090:9090"
-    depends_on:
-      - stat-db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db:5432/explore_with_me_statistics
-      - DB_NAME=explore_with_me_statistics
-      - POSTGRES_USER=admin_explore_with_me
-      - POSTGRES_PASSWORD=1Ih5M7EZFxySxivTh0JWPhaFgDTPhOW
-      - DB_HOST=db
-      - DB_PORT=5432
-
-
-  stats-db:
-    image: postgres:14-alpine
+  # описание контейнера db
+  stat-db:
+    # образ, из которого должен быть запущен контейнер
+    image: postgres:13.7-alpine
     container_name: stat-db
     ports:
       - "6541:5432"
+    # volume и связанная с ним директория в контейнере
     volumes:
       - /var/lib/postgresql/data/
+    # переменные окружения
     environment:
       - POSTGRES_DB=explore_with_me_statistics
       - POSTGRES_USER=admin_explore_with_me
       - POSTGRES_PASSWORD=1Ih5M7EZFxySxivTh0JWPhaFgDTPhOW
 
-  ewm-service:
+  stat-server:
+    build: stat-server
+    container_name: stat-server
     ports:
-      - "8080:8080"
+      - "9090:9090"
+#      - "9091:9091"
+    # "зависит от",
+    depends_on:
+      - stat-db
+    # переменные окружения
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db:5432/explore_with_me_statistics
+      - DB_NAME=explore_with_me_statistics
+      - POSTGRES_USER=admin_explore_with_me
+      - POSTGRES_PASSWORD=1Ih5M7EZFxySxivTh0JWPhaFgDTPhOW
+      - DB_HOST=stat-db
+      - DB_PORT=5432
 
-  ewm-db:
-    image: postgres:14-alpine
+#  ewm-service:
+#    ports:
+#      - "8080:8080"
+#
+#  ewm-db:
+#    image: postgres:14-alpine

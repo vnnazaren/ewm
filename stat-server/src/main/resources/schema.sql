@@ -1,4 +1,4 @@
-drop table if exists events cascade;
+-- drop table if exists events cascade;
 create table if not exists events
 (
     id         bigint generated always as identity not null,
