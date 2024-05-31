@@ -1,45 +1,48 @@
-# версия Docker Compose
 version: '3.1'
-
-# имена и описания контейнеров, которые должны быть развёрнуты
 services:
-  # описание контейнера db
-  stat-db:
-    # образ, из которого должен быть запущен контейнер
-    image: postgres:13.7-alpine
-    container_name: stat-db
-    ports:
-      - "6541:5432"
-    # volume и связанная с ним директория в контейнере
-    volumes:
-      - /var/lib/postgresql/data/
-    # переменные окружения
-    environment:
-      - POSTGRES_DB=explore_with_me_statistics
-      - POSTGRES_USER=admin_explore_with_me
-      - POSTGRES_PASSWORD=1Ih5M7EZFxySxivTh0JWPhaFgDTPhOW
-
   stat-server:
-    build: stat-server
-    container_name: stat-server
+    build: stat-service/stat-server
+    image: stat-server-image
+    container_name: stat-server-container
     ports:
       - "9090:9090"
-#      - "9091:9091"
-    # "зависит от",
     depends_on:
       - stat-db
-    # переменные окружения
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db:5432/explore_with_me_statistics
-      - DB_NAME=explore_with_me_statistics
-      - POSTGRES_USER=admin_explore_with_me
-      - POSTGRES_PASSWORD=1Ih5M7EZFxySxivTh0JWPhaFgDTPhOW
-      - DB_HOST=stat-db
-      - DB_PORT=5432
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db:5432/stat
+      - SPRING_DATASOURCE_USERNAME=admin_stat
+      - SPRING_DATASOURCE_PASSWORD=1yWX1bnLDH3leGPOLeJAvLjLPx8ktKH
 
-#  ewm-service:
-#    ports:
-#      - "8080:8080"
-#
-#  ewm-db:
-#    image: postgres:14-alpine
+  stat-db:
+    image: postgres:13.7-alpine
+    container_name: stat-db-container
+    ports:
+      - "6541:5432"
+    environment:
+      - POSTGRES_DB=stat
+      - POSTGRES_USER=admin_stat
+      - POSTGRES_PASSWORD=1yWX1bnLDH3leGPOLeJAvLjLPx8ktKH
+
+  main-service:
+    build: main-service
+    image: main-service-image
+    container_name: main-service-container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - main-db
+      - stat-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/main
+      - SPRING_DATASOURCE_USERNAME=admin_main
+      - SPRING_DATASOURCE_PASSWORD=I0N0UbB0zQL3KUHAgOMsoUdAFGt4pJ1
+
+  main-db:
+    image: postgres:13.7-alpine
+    container_name: main-db-container
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=main
+      - POSTGRES_USER=admin_main
+      - POSTGRES_PASSWORD=I0N0UbB0zQL3KUHAgOMsoUdAFGt4pJ1
