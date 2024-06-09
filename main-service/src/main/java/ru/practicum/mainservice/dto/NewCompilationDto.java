@@ -23,12 +23,12 @@ public class NewCompilationDto {
     /**
      * Список событий входящих в подборку
      */
-    private List<EventShortDto> events;
+    private List<Long> events;
 
     /**
      * Закреплена ли подборка на главной странице сайта
      */
-    private Boolean pinned; // todo - как сделать эту переменную по умолчанию false?
+    private boolean pinned;
 
     /**
      * Заголовок подборки

@@ -24,7 +24,6 @@ public class EventFullDto {
     /**
      * Идентификатор события
      */
-    @NotNull(message = "Идентификатор события должен быть указано.")
     private long id;
 
     /**
