@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.dto.CategoryDto;
 import ru.practicum.mainservice.dto.NewCategoryDto;
 import ru.practicum.mainservice.exceptions.EntityNotFoundException;
-import ru.practicum.mainservice.exceptions.WrongParameter;
+import ru.practicum.mainservice.exceptions.WrongParameterException;
 import ru.practicum.mainservice.model.Category;
 import ru.practicum.mainservice.model.mapper.CategoryMapper;
 import ru.practicum.mainservice.service.CategoryService;
@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             return CategoryMapper.toCategoryDto(categoryRepository.save(CategoryMapper.toCategory(newCategoryDto)));
         } catch (DataIntegrityViolationException e) {
-            throw new WrongParameter(String.format(
+            throw new WrongParameterException(String.format(
                     "Ошибка при создании пользователя %s", newCategoryDto
             ));
         }
@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             return CategoryMapper.toCategoryDto(categoryRepository.save(category));
         } catch (DataIntegrityViolationException e) {
-            throw new WrongParameter(String.format(
+            throw new WrongParameterException(String.format(
                     "Ошибка при обновлении пользователя c ID %s", category.getId()
             ));
         }

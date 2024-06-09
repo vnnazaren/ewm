@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.dto.EventRequestStatusUpdateRequest;
 import ru.practicum.mainservice.dto.EventRequestStatusUpdateResult;
 import ru.practicum.mainservice.dto.ParticipationRequestDto;
-import ru.practicum.mainservice.exceptions.BadRequest;
+import ru.practicum.mainservice.exceptions.BadRequestException;
 import ru.practicum.mainservice.exceptions.EntityNotFoundException;
-import ru.practicum.mainservice.exceptions.WrongParameter;
+import ru.practicum.mainservice.exceptions.WrongParameterException;
 import ru.practicum.mainservice.model.Event;
 import ru.practicum.mainservice.model.Request;
 import ru.practicum.mainservice.model.User;
@@ -83,7 +83,7 @@ public class RequestServiceImpl implements RequestService {
         Event event = EventMapper.toEvent(eventService.readEvent(userId, eventId));
 
         if (event.getConfirmedRequests() >= event.getParticipantLimit()) {
-            throw new WrongParameter("Достигнут лимит заявок на участие в событии");
+            throw new WrongParameterException("Достигнут лимит заявок на участие в событии");
         }
 
         List<Request> confirmed = new ArrayList<>();
@@ -130,7 +130,7 @@ public class RequestServiceImpl implements RequestService {
 
         if (request.getStatus().equals(Status.CANCELED)
                 || request.getStatus().equals(Status.REJECTED)) {
-            throw new BadRequest("Запрос уже отменен");
+            throw new BadRequestException("Запрос уже отменен");
         }
 
         request.setStatus(Status.CANCELED);

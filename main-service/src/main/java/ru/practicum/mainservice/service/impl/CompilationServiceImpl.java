@@ -8,7 +8,7 @@ import ru.practicum.mainservice.dto.CompilationDto;
 import ru.practicum.mainservice.dto.NewCompilationDto;
 import ru.practicum.mainservice.dto.UpdateCompilationRequest;
 import ru.practicum.mainservice.exceptions.EntityNotFoundException;
-import ru.practicum.mainservice.exceptions.WrongParameter;
+import ru.practicum.mainservice.exceptions.WrongParameterException;
 import ru.practicum.mainservice.model.Compilation;
 import ru.practicum.mainservice.model.Event;
 import ru.practicum.mainservice.model.mapper.CompilationMapper;
@@ -36,7 +36,7 @@ public class CompilationServiceImpl implements CompilationService {
         try {
             return CompilationMapper.toCompilationDto(compilationRepository.save(CompilationMapper.toCompilation(newCompilationDto)));
         } catch (DataIntegrityViolationException e) {
-            throw new WrongParameter(String.format(
+            throw new WrongParameterException(String.format(
                     "Ошибка при создании пользователя %s", newCompilationDto
             ));
         }
@@ -86,7 +86,7 @@ public class CompilationServiceImpl implements CompilationService {
         try {
             return CompilationMapper.toCompilationDto(compilationRepository.save(compilation));
         } catch (DataIntegrityViolationException e) {
-            throw new WrongParameter(String.format(
+            throw new WrongParameterException(String.format(
                     "Ошибка при обновлении подборки c ID %s", compilation.getId()
             ));
         }
