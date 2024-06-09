@@ -16,17 +16,14 @@ import ru.practicum.mainservice.storage.CategoryRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Класс-сервис CATEGORY
- */
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
+
     private final CategoryRepository categoryRepository;
 
     @Override
-    @Transactional
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
         try {
             return CategoryMapper.toCategoryDto(categoryRepository.save(CategoryMapper.toCategory(newCategoryDto)));
@@ -38,6 +35,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryDto readCategory(Long catId) {
+        return CategoryMapper.toCategoryDto(categoryRepository.findById(catId)
+                .orElseThrow(() -> new EntityNotFoundException("Категория с ID " + catId + " не найдена.")));
+    }
+
+    @Override
     public List<CategoryDto> readCategories() {
         return categoryRepository.findAll().stream()
                 .map(CategoryMapper::toCategoryDto)
@@ -45,17 +48,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto readCategory(long catId) {
-        return CategoryMapper.toCategoryDto(categoryRepository.findById(catId)
-                .orElseThrow(() -> new EntityNotFoundException("Категория с ID " + catId + " не найдена.")));
-    }
-
-    @Override
-    @Transactional
-    public CategoryDto updateCategory(long catId,
+    public CategoryDto updateCategory(Long catId,
                                       NewCategoryDto newCategoryDto) {
-        Category category = categoryRepository.findById(catId)
-                .orElseThrow(() -> new EntityNotFoundException("Категория с ID " + catId + " не найдена."));
+        Category category = CategoryMapper.toCategory(readCategory(catId));
 
         String name = newCategoryDto.getName();
 
@@ -73,7 +68,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(long catId) {
+    public void deleteCategoryById(Long catId) {
         categoryRepository.deleteById(catId);
     }
+
 }

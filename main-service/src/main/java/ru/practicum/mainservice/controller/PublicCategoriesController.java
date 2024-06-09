@@ -19,23 +19,25 @@ public class PublicCategoriesController {
 
     /**
      * Получение категорий
+     *
      * @return Коллекция объектов DTO с подборками событий
      */
     @GetMapping
     public List<CategoryDto> readCategories(@RequestParam(defaultValue = "0") int from,
                                             @RequestParam(defaultValue = "10") int size) {
-        log.info("GET /categories?from={}&size={}" , from, size);
+        log.info("!!!!!!!!!!!!!!! PublicCategoriesController: GET /categories?from={}&size={}", from, size);
         return categoryService.readCategories();
     }
 
     /**
      * Получение информации о категории по её идентификатору
+     *
      * @param catId Идентификатор подборки событий по которой необходима информация
      * @return Объект DTO подборки событий
      */
     @GetMapping("/{catId}")
-    public CategoryDto readCategory(@PathVariable long catId) {
-        log.info("GET /categories/{}", catId);
+    public CategoryDto readCategory(@PathVariable Long catId) {
+        log.info("!!!!!!!!!!!!!!! PublicCategoriesController: GET /categories/{}", catId);
         return categoryService.readCategory(catId);
     }
 }

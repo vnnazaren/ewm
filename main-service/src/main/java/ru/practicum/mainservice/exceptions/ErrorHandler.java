@@ -4,9 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -16,7 +20,11 @@ public class ErrorHandler {
 
     private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    @ExceptionHandler({BadRequestException.class})
+    @ExceptionHandler({BadRequestException.class,
+            MissingServletRequestParameterException.class,
+            MissingRequestHeaderException.class,
+            MethodArgumentNotValidException.class,
+            ConstraintViolationException.class})
     public ResponseEntity<ErrorResponse> handleBadRequestException(Exception e) {
         log.info("HttpStatus.BAD_REQUEST (400). {}", e.getMessage());
         return ResponseEntity
@@ -42,8 +50,10 @@ public class ErrorHandler {
                         .build());
     }
 
-    @ExceptionHandler({DataIntegrityViolationException.class,
-            WrongParameterException.class})
+    @ExceptionHandler({WrongParameterException.class,
+            ConflictException.class,
+            DataIntegrityViolationException.class,
+            DataIntegrityViolationException.class})
     public ResponseEntity<ErrorResponse> handleWrongParameterException(Exception e) {
         log.info("HttpStatus.CONFLICT (409). {}", e.getMessage());
         return ResponseEntity

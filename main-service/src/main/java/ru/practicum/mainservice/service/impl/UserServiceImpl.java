@@ -3,6 +3,7 @@ package ru.practicum.mainservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.dto.NewUserRequest;
 import ru.practicum.mainservice.dto.UserDto;
 import ru.practicum.mainservice.exceptions.EntityNotFoundException;
@@ -13,18 +14,11 @@ import ru.practicum.mainservice.storage.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Класс-сервис USER
- */
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-
-    @Override
-    public UserDto createUser(NewUserRequest newUserRequest) {
-        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(newUserRequest)));
-    }
 
     @Override
     public UserDto readUser(Long userId) {
@@ -33,15 +27,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> readUsers(int from, int size) {
+    public List<UserDto> readUsers(List<Long> ids, int from, int size) {
         PageRequest page = PageRequest.of(from > 0 && size > 0 ? from / size : 0, size);
-        return userRepository.findAll(page).stream()
+
+        if (ids == null || ids.isEmpty()) {
+            return userRepository.findAll(page).stream()
+                    .map(UserMapper::toUserDto)
+                    .collect(Collectors.toList());
+        }
+        return userRepository.findAllByIdIn(ids, page).stream()
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void deleteUser(long userId) {
+    @Transactional
+    public UserDto createUser(NewUserRequest newUserRequest) {
+        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(newUserRequest)));
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
 }

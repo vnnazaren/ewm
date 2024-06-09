@@ -28,21 +28,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- * Класс-сервис REQUEST
- */
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class RequestServiceImpl implements RequestService {
     private final UserService userService;
     private final EventService eventService;
-    private final EventRepository eventRepository;
     private final RequestRepository requestRepository;
+    private final EventRepository eventRepository;
 
     @Override
-    public ParticipationRequestDto createRequests(long userId, long eventId) {
+    @Transactional
+    public ParticipationRequestDto createRequests(Long userId, Long eventId) {
         User user = UserMapper.toUser(userService.readUser(userId));
-        Event event = EventMapper.toEvent(eventService.readEventsById(eventId));
+        Event event = EventMapper.toEvent(eventService.readEvent(eventId));
 
         return RequestMapper.toParticipationRequestDto(requestRepository.save(Request.builder()
                 .created(LocalDateTime.now())
@@ -51,10 +50,25 @@ public class RequestServiceImpl implements RequestService {
                 .build()));
     }
 
-    @Override
-    public List<ParticipationRequestDto> readRequestsByUserId(long userId, long eventId) {
+    public List<ParticipationRequestDto> readRequest(Long userId, Long eventId) {
         User user = UserMapper.toUser(userService.readUser(userId));
-        Event event = EventMapper.toEvent(eventService.readEventsById(eventId));
+        Event event = EventMapper.toEvent(eventService.readEvent(eventId));
+        return null;
+    }
+
+    @Override
+    public List<ParticipationRequestDto> readRequests(Long userId) {
+        User user = UserMapper.toUser(userService.readUser(userId));
+
+        return requestRepository.findAllByRequester(user).stream()
+                .map(RequestMapper::toParticipationRequestDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ParticipationRequestDto> readRequestsByUserId(Long userId, Long eventId) {
+        User user = UserMapper.toUser(userService.readUser(userId));
+        Event event = EventMapper.toEvent(eventService.readEvent(eventId));
 
         if (event.getInitiator().equals(user)) {
             return requestRepository.findAllByEvent(event).stream()
@@ -66,21 +80,12 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public List<ParticipationRequestDto> readRequests(long userId) {
-        User user = UserMapper.toUser(userService.readUser(userId));
-
-        return requestRepository.findAllByRequester(user).stream()
-                .map(RequestMapper::toParticipationRequestDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     @Transactional
-    public EventRequestStatusUpdateResult updateRequests(long userId,
-                                                         long eventId,
+    public EventRequestStatusUpdateResult updateRequests(Long userId,
+                                                         Long eventId,
                                                          EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest) {
         UserMapper.toUser(userService.readUser(userId));
-        Event event = EventMapper.toEvent(eventService.readEvent(userId, eventId));
+        Event event = EventMapper.toEvent(eventService.readEvent(eventId));
 
         if (event.getConfirmedRequests() >= event.getParticipantLimit()) {
             throw new WrongParameterException("Достигнут лимит заявок на участие в событии");
@@ -123,7 +128,8 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public ParticipationRequestDto cancelRequests(long userId, long requestId) {
+    @Transactional
+    public ParticipationRequestDto cancelRequests(Long userId, Long requestId) {
         userService.readUser(userId);
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Запрос с ID %s не найден.", requestId)));
@@ -137,4 +143,6 @@ public class RequestServiceImpl implements RequestService {
 
         return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
     }
+
+
 }

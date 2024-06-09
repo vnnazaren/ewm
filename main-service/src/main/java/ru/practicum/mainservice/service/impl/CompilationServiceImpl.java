@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Класс-сервис COMPILATION
- */
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -43,6 +40,12 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    public CompilationDto readCompilation(Long compId) {
+        return CompilationMapper.toCompilationDto(compilationRepository.findById(compId)
+                .orElseThrow(() -> new EntityNotFoundException("Подборка с ID " + compId + " не найдена.")));
+    }
+
+    @Override
     public List<CompilationDto> readCompilations(Boolean pinned, int from, int size) {
         return compilationRepository.findAll().stream()
                 .map(CompilationMapper::toCompilationDto)
@@ -50,15 +53,8 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public CompilationDto readCompilation(long compId) {
-        return CompilationMapper.toCompilationDto(compilationRepository.findById(compId)
-                .orElseThrow(() -> new EntityNotFoundException("Подборка с ID " + compId + " не найдена.")));
-
-    }
-
-    @Override
     @Transactional
-    public CompilationDto updateCompilation(long compId,
+    public CompilationDto updateCompilation(Long compId,
                                             UpdateCompilationRequest updateCompilationRequest) {
         Compilation compilation = compilationRepository.findById(compId)
                 .orElseThrow(() -> new EntityNotFoundException("Подборка с ID " + compId + " не найдена."));
@@ -93,7 +89,8 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public void deleteCompilation(long compId) {
+    @Transactional
+    public void deleteCompilation(Long compId) {
         compilationRepository.deleteById(compId);
     }
 }

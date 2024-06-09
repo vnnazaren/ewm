@@ -10,13 +10,14 @@ import java.util.List;
  * Интерфейс класса-сервиса COMPILATION
  */
 public interface CompilationService {
-    List<CompilationDto> readCompilations(Boolean pinned, int from, int size);
-
-    CompilationDto readCompilation(long compId);
 
     CompilationDto createCompilation(NewCompilationDto newCompilationDto);
 
-    void deleteCompilation(long compId);
+    CompilationDto readCompilation(Long compId);
 
-    CompilationDto updateCompilation(long compId, UpdateCompilationRequest updateCompilationRequest);
+    List<CompilationDto> readCompilations(Boolean pinned, int from, int size);
+
+    CompilationDto updateCompilation(Long compId, UpdateCompilationRequest updateCompilationRequest);
+
+    void deleteCompilation(Long compId);
 }

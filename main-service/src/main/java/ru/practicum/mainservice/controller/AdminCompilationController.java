@@ -10,6 +10,8 @@ import ru.practicum.mainservice.dto.NewCompilationDto;
 import ru.practicum.mainservice.dto.UpdateCompilationRequest;
 import ru.practicum.mainservice.service.CompilationService;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Класс-контроллер COMPILATION для Администратора
  */
@@ -29,8 +31,8 @@ public class AdminCompilationController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompilationDto createCompilation(@RequestBody NewCompilationDto newCompilationDto) {
-        log.info("POST /admin/compilations - {}", newCompilationDto);
+    public CompilationDto createCompilation(@RequestBody @NotNull NewCompilationDto newCompilationDto) {
+        log.info("!!!!!!!!!!!!!!! AdminCompilationController: POST /admin/compilations - {}", newCompilationDto);
         return compilationService.createCompilation(newCompilationDto);
     }
 
@@ -42,9 +44,9 @@ public class AdminCompilationController {
      * @return Объект DTO подборки с изменёнными полями
      */
     @PatchMapping("/{compId}")
-    public CompilationDto updateCompilation(@RequestBody UpdateCompilationRequest updateCompilationRequest,
-                                            @PathVariable long compId) {
-        log.info("PATCH /admin/compilations/{} - {}", compId, updateCompilationRequest);
+    public CompilationDto updateCompilation(@RequestBody @NotNull UpdateCompilationRequest updateCompilationRequest,
+                                            @PathVariable @NotNull Long compId) {
+        log.info("!!!!!!!!!!!!!!! AdminCompilationController: PATCH /admin/compilations/{} - {}", compId, updateCompilationRequest);
         return compilationService.updateCompilation(compId, updateCompilationRequest);
     }
 
@@ -55,8 +57,8 @@ public class AdminCompilationController {
      */
     @DeleteMapping("/{compId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCompilation(@PathVariable long compId) {
-        log.info("DELETE /admin/compilations/{}", compId);
+    public void deleteCompilation(@PathVariable @NotNull Long compId) {
+        log.info("!!!!!!!!!!!!!!! AdminCompilationController: DELETE /admin/compilations/{}", compId);
         compilationService.deleteCompilation(compId);
     }
 }

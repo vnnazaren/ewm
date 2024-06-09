@@ -5,15 +5,13 @@ import ru.practicum.mainservice.dto.UserDto;
 
 import java.util.List;
 
-/**
- * Интерфейс класса-сервиса USER
- */
 public interface UserService {
+
     UserDto createUser(NewUserRequest newUserRequest);
 
     UserDto readUser(Long userId);
 
-    List<UserDto> readUsers(int from, int size);
+    List<UserDto> readUsers(List<Long> ids, int from, int size);
 
-    void deleteUser(long userId);
+    void deleteUser(Long userId);
 }

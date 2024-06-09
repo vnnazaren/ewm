@@ -22,24 +22,26 @@ public class PublicCompilationsController {
 
     /**
      * Получение подборок событий
+     *
      * @return Коллекция объектов DTO с подборками событий
      */
     @GetMapping
     public List<CompilationDto> readCompilations(@RequestParam Boolean pinned,
                                                  @RequestParam(defaultValue = "0") int from,
                                                  @RequestParam(defaultValue = "10") int size) {
-        log.info("GET /compilations?pinned={}&from={}&size={}", pinned, from, size);
+        log.info("!!!!!!!!!!!!!!! PublicCompilationsController: GET /compilations?pinned={}&from={}&size={}", pinned, from, size);
         return compilationService.readCompilations(pinned, from, size);
     }
 
     /**
      * Получение подборки событий по её id
+     *
      * @param compId Идентификатор подборки событий по которой необходима информация
      * @return Объект DTO подборки событий
      */
     @GetMapping("/{compId}")
-    public CompilationDto readCompilation(@PathVariable long compId) {
-        log.info("GET /compilations/{}", compId);
+    public CompilationDto readCompilation(@PathVariable Long compId) {
+        log.info("!!!!!!!!!!!!!!! PublicCompilationsController: GET /compilations/{}", compId);
         return compilationService.readCompilation(compId);
     }
 }

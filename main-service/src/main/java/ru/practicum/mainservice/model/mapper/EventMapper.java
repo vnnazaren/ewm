@@ -7,6 +7,7 @@ import ru.practicum.mainservice.dto.EventShortDto;
 import ru.practicum.mainservice.dto.NewEventDto;
 import ru.practicum.mainservice.model.Category;
 import ru.practicum.mainservice.model.Event;
+import ru.practicum.mainservice.model.Location;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EventMapper {
@@ -23,7 +24,11 @@ public class EventMapper {
                 .category(Category.builder()
                         .id(newEventDto.getCategory())
                         .build())
-                .location(LocationMapper.toLocation(newEventDto.getLocation()))
+//                .location(LocationMapper.toLocation(newEventDto.getLocation()))
+                .location(Location.builder()
+                        .lat(newEventDto.getLocation().getLat())
+                        .lon(newEventDto.getLocation().getLon())
+                        .build())
                 .build();
     }
 

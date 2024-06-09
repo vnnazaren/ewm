@@ -11,15 +11,17 @@ import java.util.List;
  */
 public interface RequestService {
 
-    List<ParticipationRequestDto> readRequestsByUserId(long userId, long eventId);
+    ParticipationRequestDto createRequests(Long userId, Long eventId);
 
-    EventRequestStatusUpdateResult updateRequests(long userId,
-                                                  long eventId,
+    List<ParticipationRequestDto> readRequest(Long userId, Long eventId);
+
+    List<ParticipationRequestDto> readRequestsByUserId(Long userId, Long eventId);
+
+    List<ParticipationRequestDto> readRequests(Long userId);
+
+    EventRequestStatusUpdateResult updateRequests(Long userId,
+                                                  Long eventId,
                                                   EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest);
 
-    List<ParticipationRequestDto> readRequests(long userId);
-
-    ParticipationRequestDto createRequests(long userId, long eventId);
-
-    ParticipationRequestDto cancelRequests(long userId, long requestId);
+    ParticipationRequestDto cancelRequests(Long userId, Long requestId);
 }

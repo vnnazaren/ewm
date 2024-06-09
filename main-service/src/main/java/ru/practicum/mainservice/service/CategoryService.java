@@ -9,13 +9,14 @@ import java.util.List;
  * Интерфейс класса-сервиса CATEGORY
  */
 public interface CategoryService {
+
     CategoryDto createCategory(NewCategoryDto newCategoryDto);
 
-    CategoryDto updateCategory(long catId, NewCategoryDto newCategoryDto);
-
-    void deleteCategory(long catId);
+    CategoryDto readCategory(Long catId);
 
     List<CategoryDto> readCategories();
 
-    CategoryDto readCategory(long catId);
+    CategoryDto updateCategory(Long catId, NewCategoryDto newCategoryDto);
+
+    void deleteCategoryById(Long catId);
 }

@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.CategoryDto;
 import ru.practicum.mainservice.dto.NewCategoryDto;
 import ru.practicum.mainservice.service.CategoryService;
-import ru.practicum.mainservice.util.Marker;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 /**
  * Класс-контроллер CATEGORY
@@ -21,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/categories")
 public class AdminCategoryController {
-    private final CategoryService categoryService;
+    private final CategoryService CategoryService;
 
     /**
      * Добавление новой категории
@@ -30,11 +29,10 @@ public class AdminCategoryController {
      * @return Объект CategoryDto с новой созданной категорией
      */
     @PostMapping
-    @Validated(Marker.OnCreate.class)
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto createCategory(@RequestBody NewCategoryDto newCategoryDto) {
-        log.info("POST /admin/categories - {}", newCategoryDto);
-        return categoryService.createCategory(newCategoryDto);
+        log.info("!!!!!!!!!!!!!!! AdminCategoryController: POST /admin/categories - {}", newCategoryDto);
+        return CategoryService.createCategory(newCategoryDto);
     }
 
     /**
@@ -45,11 +43,10 @@ public class AdminCategoryController {
      * @return Объект DTO категории с изменёнными полями
      */
     @PatchMapping("/{catId}")
-    @Validated(Marker.OnUpdate.class)
-    public CategoryDto updateCategory(@NotNull @PathVariable long catId,
-                                      @NotNull @RequestBody NewCategoryDto newCategoryDto) {
-        log.info("PATCH /admin/categories/{} - {}", catId, newCategoryDto);
-        return categoryService.updateCategory(catId, newCategoryDto);
+    public CategoryDto updateCategory(@PathVariable Long catId,
+                                      @RequestBody NewCategoryDto newCategoryDto) {
+        log.info("!!!!!!!!!!!!!!! AdminCategoryController: PATCH /admin/categories/{} - {}", catId, newCategoryDto);
+        return CategoryService.updateCategory(catId, newCategoryDto);
     }
 
     /**
@@ -59,8 +56,8 @@ public class AdminCategoryController {
      */
     @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCategory(@PathVariable long catId) {
-        log.info("DELETE /admin/categories/{}", catId);
-        categoryService.deleteCategory(catId);
+    public void deleteCategory(@PathVariable @Positive Long catId) {
+        log.info("!!!!!!!!!!!!!!! AdminCategoryController: DELETE /admin/categories/{}", catId);
+        CategoryService.deleteCategoryById(catId);
     }
 }

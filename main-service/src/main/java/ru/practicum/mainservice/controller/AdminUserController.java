@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/users")
 public class AdminUserController {
-    private final UserService userService;
+    private final UserService adminUserService;
 
     /**
      * Получение информации о пользователях
@@ -31,10 +31,11 @@ public class AdminUserController {
      * @return Коллекция объектов DTO с пользователями
      */
     @GetMapping
-    public List<UserDto> readUsers(@RequestParam(defaultValue = "0") int from,
+    public List<UserDto> readUsers(@RequestParam(required = false) List<Long> ids,
+                                   @RequestParam(defaultValue = "0") int from,
                                    @RequestParam(defaultValue = "10") int size) {
-        log.info("GET /users?from={}&size={}", from, size);
-        return userService.readUsers(from, size);
+        log.info("!!!!!!!!!!!!!!! AdminUserController: GET /users?ids={}&from={}&size={}", ids, from, size);
+        return adminUserService.readUsers(ids, from, size);
     }
 
     /**
@@ -46,8 +47,8 @@ public class AdminUserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody @Valid NewUserRequest newUserRequest) {
-        log.info("POST /users - {}", newUserRequest);
-        return userService.createUser(newUserRequest);
+        log.info("!!!!!!!!!!!!!!! AdminUserController: POST /users - {}", newUserRequest);
+        return adminUserService.createUser(newUserRequest);
     }
 
     /**
@@ -57,8 +58,8 @@ public class AdminUserController {
      */
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable long userId) {
-        log.info("DELETE /admin/users/{}", userId);
-        userService.deleteUser(userId);
+    public void deleteUser(@PathVariable Long userId) {
+        log.info("!!!!!!!!!!!!!!! AdminUserController: DELETE /admin/users/{}", userId);
+        adminUserService.deleteUser(userId);
     }
 }
