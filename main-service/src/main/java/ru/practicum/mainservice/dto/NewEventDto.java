@@ -30,12 +30,6 @@ public class NewEventDto {
     private String annotation;
 
     /**
-     * Id категории к которой относится событие
-     */
-    @NotNull(message = "Id категории должен быть указан.")
-    private int category;
-
-    /**
      * Полное описание события
      */
     @NotNull(message = "Описание события должно быть указано.")
@@ -50,15 +44,9 @@ public class NewEventDto {
     private LocalDateTime eventDate;
 
     /**
-     * Широта и долгота места проведения события
-     */
-    @NotNull(message = "Место проведения события должно быть указано.")
-    private LocationDto location;
-
-    /**
      * Нужно ли оплачивать участие в событии
      */
-    private boolean paid;
+    private Boolean paid;
 
     /**
      * Ограничение на количество участников. Значение 0 - означает отсутствие ограничения
@@ -77,4 +65,16 @@ public class NewEventDto {
      */
     @NotBlank(message = "Название мероприятия должно быть указано.")
     private String title;
+
+    /**
+     * Id категории к которой относится событие
+     */
+    @NotNull(message = "Id категории должен быть указан.")
+    private Long category;
+
+    /**
+     * Широта и долгота места проведения события
+     */
+    @NotNull(message = "Место проведения события должно быть указано.")
+    private LocationDto location;
 }

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import ru.practicum.mainservice.util.StateEnum;
+import ru.practicum.mainservice.util.Status;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -69,7 +69,7 @@ public class UpdateEventUserRequest {
     /**
      * Изменение состояния события
      */
-    private StateEnum stateAction;
+    private Status stateAction;
 
     /**
      * Новый заголовок

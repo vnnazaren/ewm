@@ -26,20 +26,6 @@ public class PrivateUserEventsController {
     private final RequestService requestService;
 
     /**
-     * Получение событий, добавленных текущим пользователем
-     *
-     * @param userId Id текущего пользователя
-     * @return Коллекция объектов DTO с пользователями
-     */
-    @GetMapping
-    public List<EventShortDto> readEventsByUserId(@PathVariable long userId,
-                                                  @RequestParam(defaultValue = "0") int from,
-                                                  @RequestParam(defaultValue = "10") int size) {
-        log.info("GET /users/{}/events?from={}&size={}", userId, from, size);
-        return eventService.readEventsByUserId(userId, from, size);
-    }
-
-    /**
      * Добавление нового события
      *
      * @param userId      Id текущего пользователя
@@ -69,6 +55,34 @@ public class PrivateUserEventsController {
     }
 
     /**
+     * Получение событий, добавленных текущим пользователем
+     *
+     * @param userId Id текущего пользователя
+     * @return Коллекция объектов DTO с пользователями
+     */
+    @GetMapping
+    public List<EventShortDto> readEventsByUserId(@PathVariable long userId,
+                                                  @RequestParam(defaultValue = "0") int from,
+                                                  @RequestParam(defaultValue = "10") int size) {
+        log.info("GET /users/{}/events?from={}&size={}", userId, from, size);
+        return eventService.readEventsByUserId(userId, from, size);
+    }
+
+    /**
+     * Получение информации о запросах на участие в событии текущего пользователя
+     *
+     * @param userId  Id текущего пользователя
+     * @param eventId Id события
+     * @return Объект DTO запроса на участие
+     */
+    @GetMapping("/{eventId}/requests")
+    public List<ParticipationRequestDto> readRequestsByUserId(@NotNull @PathVariable long userId,
+                                                              @NotNull @PathVariable long eventId) {
+        log.info("POST /users/{}/events/{}/requests", userId, eventId);
+        return requestService.readRequestsByUserId(userId, eventId);
+    }
+
+    /**
      * Изменение события добавленного текущим пользователем.
      * Изменить можно только отмененные события или события в состоянии ожидания модерации (Ожидается код ошибки 409).
      * Дата и время на которые намечено событие не может быть раньше, чем через два часа от текущего момента (Ожидается код ошибки 409).
@@ -87,28 +101,15 @@ public class PrivateUserEventsController {
     }
 
     /**
-     * Получение информации о запросах на участие в событии текущего пользователя
-     *
-     * @param userId  Id текущего пользователя
-     * @param eventId Id события
-     * @return Объект DTO запроса на участие
-     */
-    @GetMapping("/{eventId}/requests")
-    public List<ParticipationRequestDto> readRequestsByUserId(@NotNull @PathVariable long userId,
-                                                              @NotNull @PathVariable long eventId) {
-        log.info("POST /users/{}/events/{}/requests", userId, eventId);
-        return requestService.readRequestsByUserId(userId, eventId);
-    }
-
-    /**
      * Изменение статуса (подтверждена, отменена) заявок на участие в событии текущего пользователя.
-     * Если для события лимит заявок равен 0 или отключена пре-модерация заявок, то подтверждение заявок не требуется.
-     * Нельзя подтвердить заявку, если уже достигнут лимит по заявкам на данное событие (Ожидается код ошибки 409).
-     * Статус можно изменить только у заявок, находящихся в состоянии ожидания (Ожидается код ошибки 409).
-     * Если при подтверждении данной заявки, лимит заявок для события исчерпан, то все неподтверждённые заявки необходимо отклонить.
+     * <li>Если для события лимит заявок равен 0 или отключена пре-модерация заявок, то подтверждение заявок не требуется.
+     * <li>Нельзя подтвердить заявку, если уже достигнут лимит по заявкам на данное событие (Ожидается код ошибки 409).
+     * <li>Статус можно изменить только у заявок, находящихся в состоянии ожидания (Ожидается код ошибки 409).
+     * <li>Если при подтверждении данной заявки, лимит заявок для события исчерпан, то все неподтверждённые заявки необходимо отклонить.
      *
      * @param userId  Id текущего пользователя
      * @param eventId Id события
+     * @param eventRequestStatusUpdateRequest DTO с новым статусом и списком заявок на участие в событии текущего пользователя
      * @return Объект DTO запроса на участие
      */
     @PatchMapping("/{eventId}/requests")

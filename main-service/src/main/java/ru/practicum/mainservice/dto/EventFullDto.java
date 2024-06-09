@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import ru.practicum.mainservice.util.StateEnum;
+import ru.practicum.mainservice.util.Status;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -22,16 +22,16 @@ import java.time.LocalDateTime;
 public class EventFullDto {
 
     /**
+     * Идентификатор события
+     */
+    @NotNull(message = "Идентификатор события должен быть указано.")
+    private long id;
+
+    /**
      * Краткое описание
      */
     @NotNull(message = "Краткое описание должно быть указано.")
     private String annotation;
-
-    /**
-     * Категория
-     */
-    @NotNull(message = "Категория должна быть указана.")
-    private CategoryDto category;
 
     /**
      * Количество одобренных заявок на участие в данном событии
@@ -56,10 +56,47 @@ public class EventFullDto {
     private LocalDateTime eventDate;
 
     /**
-     * Идентификатор события
+     * Нужно ли оплачивать участие
      */
-    @NotNull(message = "Идентификатор события должен быть указано.")
-    private long id;
+    @NotNull(message = "Должно быть указано требуется ли оплачивать участие в событии.")
+    private Boolean paid;
+
+    /**
+     * Ограничение на количество участников. Значение 0 - означает отсутствие ограничения
+     */
+    private Integer participantLimit;
+
+    /**
+     * Дата и время публикации события (в формате "yyyy-MM-dd HH:mm:ss")
+     */
+    private LocalDateTime publishedOn;
+
+    /**
+     * Нужна ли пре-модерация заявок на участие
+     */
+    private Boolean requestModeration;
+
+    /**
+     * Список состояний жизненного цикла события
+     */
+    private Status state;
+
+    /**
+     * Заголовок
+     */
+    @NotNull(message = "Название мероприятия должно быть указано.")
+    private String title;
+
+    /**
+     * Количество просмотров события
+     */
+    private Integer views;
+
+    /**
+     * Категория
+     */
+    @NotNull(message = "Категория должна быть указана.")
+    private CategoryDto category;
 
     /**
      * Инициатор
@@ -72,41 +109,4 @@ public class EventFullDto {
      */
     @NotNull(message = "Место проведения события должно быть указано.")
     private LocationDto location;
-
-    /**
-     * Нужно ли оплачивать участие
-     */
-    @NotNull(message = "Должно быть указано требуется ли оплачивать участие в событии.")
-    private boolean paid;
-
-    /**
-     * Ограничение на количество участников. Значение 0 - означает отсутствие ограничения
-     */
-    private int participantLimit;
-
-    /**
-     * Дата и время публикации события (в формате "yyyy-MM-dd HH:mm:ss")
-     */
-    private String publishedOn;
-
-    /**
-     * Нужна ли пре-модерация заявок на участие
-     */
-    private boolean requestModeration;
-
-    /**
-     * Список состояний жизненного цикла события
-     */
-    private StateEnum state;
-
-    /**
-     * Заголовок
-     */
-    @NotNull(message = "Название мероприятия должно быть указано.")
-    private String title;
-
-    /**
-     * Количество просмотров события
-     */
-    private int views;
 }

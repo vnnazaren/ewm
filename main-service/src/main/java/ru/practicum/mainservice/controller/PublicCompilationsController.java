@@ -1,10 +1,5 @@
 package ru.practicum.mainservice.controller;
 
-// ГОТОВО
-// ГОТОВО
-// ГОТОВО
-// ГОТОВО
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;

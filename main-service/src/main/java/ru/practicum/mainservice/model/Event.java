@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import ru.practicum.mainservice.util.StateEnum;
+import ru.practicum.mainservice.util.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -89,7 +89,7 @@ public class Event {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false)
-    private StateEnum state;
+    private Status state;
 
     /**
      * Заголовок

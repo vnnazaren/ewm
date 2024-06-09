@@ -35,18 +35,6 @@ public class AdminCompilationController {
     }
 
     /**
-     * Удаление подборки
-     *
-     * @param compId Идентификатор подборки которую необходимо удалить
-     */
-    @DeleteMapping("/{compId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCompilation(@PathVariable long compId) {
-        log.info("DELETE /admin/compilations/{}", compId);
-        compilationService.deleteCompilation(compId);
-    }
-
-    /**
      * Обновление информации о подборке
      *
      * @param updateCompilationRequest Тело запроса с DTO объектом подборки
@@ -58,5 +46,17 @@ public class AdminCompilationController {
                                             @PathVariable long compId) {
         log.info("PATCH /admin/compilations/{} - {}", compId, updateCompilationRequest);
         return compilationService.updateCompilation(compId, updateCompilationRequest);
+    }
+
+    /**
+     * Удаление подборки
+     *
+     * @param compId Идентификатор подборки которую необходимо удалить
+     */
+    @DeleteMapping("/{compId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCompilation(@PathVariable long compId) {
+        log.info("DELETE /admin/compilations/{}", compId);
+        compilationService.deleteCompilation(compId);
     }
 }

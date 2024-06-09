@@ -22,16 +22,15 @@ import java.time.LocalDateTime;
 public class EventShortDto {
 
     /**
+     * Идентификатор
+     */
+    private long id;
+
+    /**
      * Краткое описание
      */
     @NotBlank(message = "Краткое описание должно быть указано.")
     private String annotation;
-
-    /**
-     * Категория
-     */
-    @NotNull(message = "Категория должна быть указана.")
-    private CategoryDto category;
 
     /**
      * Количество одобренных заявок на участие в данном событии
@@ -44,17 +43,6 @@ public class EventShortDto {
     @NotNull(message = "Дата и время события должны быть указаны.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
-
-    /**
-     * Идентификатор
-     */
-    private long id;
-
-    /**
-     * Инициатор
-     */
-    @NotNull(message = "Инициатор события должен быть указан.")
-    private UserShortDto initiator;
 
     /**
      * Нужно ли оплачивать участие
@@ -72,4 +60,16 @@ public class EventShortDto {
      * Количество просмотров события
      */
     private int views;
+
+    /**
+     * Категория
+     */
+    @NotNull(message = "Категория должна быть указана.")
+    private CategoryDto category;
+
+    /**
+     * Инициатор
+     */
+    @NotNull(message = "Инициатор события должен быть указан.")
+    private UserShortDto initiator;
 }

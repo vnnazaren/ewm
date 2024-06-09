@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 /**
@@ -38,4 +39,10 @@ public class Compilation {
      */
     @Column(name = "title", nullable = false, unique = true)
     private String title;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "compilations_events",
+            joinColumns = @JoinColumn(name = "compilation_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"))
+    private Set<Event> events;
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Изменение информации о подборке событий.
@@ -23,12 +23,12 @@ public class UpdateCompilationRequest {
     /**
      * Список id событий подборки для полной замены текущего списка
      */
-    private List<Integer> events;
+    private Set<Long> events;
 
     /**
      * Закреплена ли подборка на главной странице сайта
      */
-    private boolean pinned;
+    private Boolean pinned;
 
     /**
      * Заголовок подборки

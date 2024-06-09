@@ -1,5 +1,11 @@
 package ru.practicum.mainservice.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -7,6 +13,11 @@ import java.util.List;
 /**
  * Класс DTO для создания класса "Подборка событий" - COMPILATION
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Validated
 public class NewCompilationDto {
 
     /**
@@ -17,7 +28,7 @@ public class NewCompilationDto {
     /**
      * Закреплена ли подборка на главной странице сайта
      */
-    private boolean pinned; // todo - как сделать эту переменную по умолчанию false?
+    private Boolean pinned; // todo - как сделать эту переменную по умолчанию false?
 
     /**
      * Заголовок подборки

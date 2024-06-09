@@ -6,5 +6,5 @@ import ru.practicum.mainservice.model.Category;
 /**
  * Интерфейс класса-репозитория CATEGORY
  */
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }

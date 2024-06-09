@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import ru.practicum.mainservice.util.StateEnum;
+import ru.practicum.mainservice.util.Status;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +21,11 @@ import java.time.LocalDateTime;
 public class ParticipationRequestDto {
 
     /**
+     * Идентификатор заявки
+     */
+    private long id;
+
+    /**
      * Дата и время создания заявки
      */
     @JsonFormat
@@ -32,17 +37,12 @@ public class ParticipationRequestDto {
     private long event;
 
     /**
-     * Идентификатор заявки
-     */
-    private long id;
-
-    /**
      * Идентификатор пользователя, отправившего заявку
      */
-    private int requester;
+    private long requester;
 
     /**
      * Статус заявки
      */
-    private StateEnum status;
+    private Status status;
 }

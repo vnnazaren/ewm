@@ -31,11 +31,11 @@ public class Location {
      * Широта
      */
     @Column(name = "lat", nullable = false)
-    private String lat;
+    private Float lat;
 
     /**
      * Долгота
      */
     @Column(name = "lon", nullable = false)
-    private String lon;
+    private Float lon;
 }

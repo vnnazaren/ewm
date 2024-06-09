@@ -9,9 +9,11 @@ import java.util.List;
  * Интерфейс класса-сервиса USER
  */
 public interface UserService {
-    List<UserDto> readUsers(int from, int size);
-
     UserDto createUser(NewUserRequest newUserRequest);
+
+    UserDto readUser(Long userId);
+
+    List<UserDto> readUsers(int from, int size);
 
     void deleteUser(long userId);
 }
