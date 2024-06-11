@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class EventRequestStatusUpdateResult {
 
     /**

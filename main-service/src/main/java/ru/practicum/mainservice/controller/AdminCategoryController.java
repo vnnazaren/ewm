@@ -3,19 +3,18 @@ package ru.practicum.mainservice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.CategoryDto;
 import ru.practicum.mainservice.dto.NewCategoryDto;
 import ru.practicum.mainservice.service.CategoryService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 /**
  * Класс-контроллер CATEGORY
  */
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/categories")
@@ -30,8 +29,8 @@ public class AdminCategoryController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDto createCategory(@RequestBody NewCategoryDto newCategoryDto) {
-        log.info("!!!!!!!!!!!!!!! AdminCategoryController: POST /admin/categories - {}", newCategoryDto);
+    public CategoryDto createCategory(@RequestBody @Valid NewCategoryDto newCategoryDto) {
+        log.info("AdminCategoryController: POST /admin/categories - {}", newCategoryDto);
         return CategoryService.createCategory(newCategoryDto);
     }
 
@@ -44,8 +43,8 @@ public class AdminCategoryController {
      */
     @PatchMapping("/{catId}")
     public CategoryDto updateCategory(@PathVariable Long catId,
-                                      @RequestBody NewCategoryDto newCategoryDto) {
-        log.info("!!!!!!!!!!!!!!! AdminCategoryController: PATCH /admin/categories/{} - {}", catId, newCategoryDto);
+                                      @RequestBody @Valid NewCategoryDto newCategoryDto) {
+        log.info("AdminCategoryController: PATCH /admin/categories/{} - {}", catId, newCategoryDto);
         return CategoryService.updateCategory(catId, newCategoryDto);
     }
 
@@ -57,7 +56,7 @@ public class AdminCategoryController {
     @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable @Positive Long catId) {
-        log.info("!!!!!!!!!!!!!!! AdminCategoryController: DELETE /admin/categories/{}", catId);
+        log.info("AdminCategoryController: DELETE /admin/categories/{}", catId);
         CategoryService.deleteCategoryById(catId);
     }
 }

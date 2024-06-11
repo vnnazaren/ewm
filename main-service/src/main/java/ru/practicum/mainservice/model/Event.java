@@ -1,10 +1,11 @@
 package ru.practicum.mainservice.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import ru.practicum.mainservice.util.Status;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ru.practicum.mainservice.util.EventStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -89,7 +90,7 @@ public class Event {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false)
-    private Status state;
+    private EventStatus state;
 
     /**
      * Заголовок
@@ -113,16 +114,14 @@ public class Event {
     /**
      * Инициатор
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "initiator_id", referencedColumnName = "id")
     private User initiator;
 
     /**
      * Широта и долгота места проведения события
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 }

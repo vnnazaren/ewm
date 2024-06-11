@@ -14,11 +14,13 @@ import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static ru.practicum.mainservice.util.Const.DATE_TIME_FORMAT;
+
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
 
-    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
 
     @ExceptionHandler({BadRequestException.class,
             MissingServletRequestParameterException.class,
@@ -52,7 +54,6 @@ public class ErrorHandler {
 
     @ExceptionHandler({WrongParameterException.class,
             ConflictException.class,
-            DataIntegrityViolationException.class,
             DataIntegrityViolationException.class})
     public ResponseEntity<ErrorResponse> handleWrongParameterException(Exception e) {
         log.info("HttpStatus.CONFLICT (409). {}", e.getMessage());

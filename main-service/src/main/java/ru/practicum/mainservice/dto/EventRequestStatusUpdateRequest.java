@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
-import ru.practicum.mainservice.util.Status;
+import ru.practicum.mainservice.util.EventStatus;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class EventRequestStatusUpdateRequest {
 
     /**
@@ -27,5 +25,5 @@ public class EventRequestStatusUpdateRequest {
     /**
      * Новый статус запроса на участие в событии текущего пользователя
      */
-    private Status status;
+    private EventStatus status;
 }

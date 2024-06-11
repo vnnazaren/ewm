@@ -1,10 +1,10 @@
-package ru.practicum.mainservice.model.mapper;
+package ru.practicum.mainservice.mapper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ru.practicum.mainservice.dto.EventFullDto;
-import ru.practicum.mainservice.dto.EventShortDto;
 import ru.practicum.mainservice.dto.NewEventDto;
+import ru.practicum.mainservice.dto.EventShortDto;
 import ru.practicum.mainservice.model.Category;
 import ru.practicum.mainservice.model.Event;
 import ru.practicum.mainservice.model.Location;
@@ -12,23 +12,24 @@ import ru.practicum.mainservice.model.Location;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EventMapper {
 
-    public static Event toEvent(final NewEventDto newEventDto) {
+    public static Event toEvent(final NewEventDto eventNewDto) {
         return Event.builder()
-                .annotation(newEventDto.getAnnotation())
-                .description(newEventDto.getDescription())
-                .eventDate(newEventDto.getEventDate())
-                .paid(newEventDto.getPaid())
-                .participantLimit(newEventDto.getParticipantLimit())
-                .requestModeration(newEventDto.isRequestModeration())
-                .title(newEventDto.getTitle())
+                .annotation(eventNewDto.getAnnotation())
+                .confirmedRequests(0)
+                .description(eventNewDto.getDescription())
+                .eventDate(eventNewDto.getEventDate())
+                .paid(eventNewDto.getPaid())
+                .participantLimit(eventNewDto.getParticipantLimit())
+                .requestModeration(eventNewDto.getRequestModeration())
+                .title(eventNewDto.getTitle())
                 .category(Category.builder()
-                        .id(newEventDto.getCategory())
+                        .id(eventNewDto.getCategory())
                         .build())
-//                .location(LocationMapper.toLocation(newEventDto.getLocation()))
                 .location(Location.builder()
-                        .lat(newEventDto.getLocation().getLat())
-                        .lon(newEventDto.getLocation().getLon())
+                        .lat(eventNewDto.getLocation().getLat())
+                        .lon(eventNewDto.getLocation().getLon())
                         .build())
+                .views(0)
                 .build();
     }
 

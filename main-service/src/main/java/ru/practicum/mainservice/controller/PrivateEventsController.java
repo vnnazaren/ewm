@@ -3,13 +3,14 @@ package ru.practicum.mainservice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.*;
-import ru.practicum.mainservice.service.RequestService;
 import ru.practicum.mainservice.service.EventService;
+import ru.practicum.mainservice.service.RequestService;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
@@ -17,7 +18,6 @@ import java.util.List;
  * Закрытый API для работы с событиями
  */
 @Slf4j
-@Validated // todo - добавить @Positive и @PositiveOrZero
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/users/{userId}/events")
@@ -32,10 +32,10 @@ public class PrivateEventsController {
      * @return Коллекция объектов DTO с пользователями
      */
     @GetMapping
-    public List<EventShortDto> readEventsByUserId(@PathVariable Long userId,
-                                                  @RequestParam(defaultValue = "0") int from,
-                                                  @RequestParam(defaultValue = "10") int size) {
-        log.info("!!!!!!!!!!!!!!! PrivateEventsController: GET /users/{}/events?from={}&size={}", userId, from, size);
+    public List<EventShortDto> readEventsByUserId(@PathVariable @Positive Long userId,
+                                                  @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+                                                  @RequestParam(defaultValue = "10") @Positive Integer size) {
+        log.info("PrivateEventsController: GET /users/{}/events?from={}&size={}", userId, from, size);
         return eventService.readEventsByUserId(userId, from, size);
     }
 
@@ -48,9 +48,9 @@ public class PrivateEventsController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EventFullDto createEvent(@NotNull @PathVariable Long userId,
-                                    @RequestBody NewEventDto newEventDto) {
-        log.info("!!!!!!!!!!!!!!! PrivateEventsController: POST /users/{}/events - {}", userId, newEventDto);
+    public EventFullDto createEvent(@PathVariable @Positive Long userId,
+                                    @RequestBody @Valid NewEventDto newEventDto) {
+        log.info("PrivateEventsController: POST /users/{}/events - {}", userId, newEventDto);
         return eventService.createEvent(userId, newEventDto);
     }
 
@@ -62,15 +62,15 @@ public class PrivateEventsController {
      * @return Объект DTO события
      */
     @GetMapping("/{eventId}")
-    public EventFullDto readEvent(@NotNull @PathVariable Long userId,
-                                  @NotNull @PathVariable Long eventId) {
-        log.info("!!!!!!!!!!!!!!! PrivateEventsController: POST /users/{}/events/{}", userId, eventId);
-        return eventService.readEventByUserId(userId, eventId);
+    public EventFullDto readEventByUserIdAndEventId(@PathVariable @Positive Long userId,
+                                                    @PathVariable @Positive Long eventId) {
+        log.info("PrivateEventsController: POST /users/{}/events/{}", userId, eventId);
+        return eventService.readEventByUserIdAndEventId(userId, eventId);
     }
 
     /**
-     * Изменение события добавленного текущим пользователем.
-     * Изменить можно только отмененные события или события в состоянии ожидания модерации (Ожидается код ошибки 409).
+     * Изменение события добавленного текущим пользователем.<br/>
+     * Изменить можно только отмененные события или события в состоянии ожидания модерации (Ожидается код ошибки 409).<br/>
      * Дата и время на которые намечено событие не может быть раньше, чем через два часа от текущего момента (Ожидается код ошибки 409).
      *
      * @param userId  Id текущего пользователя
@@ -78,10 +78,10 @@ public class PrivateEventsController {
      * @return Объект DTO события
      */
     @PatchMapping("/{eventId}")
-    public EventFullDto updateEventByUser(@NotNull @PathVariable Long userId,
-                                          @NotNull @PathVariable Long eventId,
-                                          @RequestBody UpdateEventUserRequest updateEventUserRequest) {
-        log.info("!!!!!!!!!!!!!!! PrivateEventsController: PATCH /users/{}/events/{} - DTO - {}",
+    public EventFullDto updateEventByUser(@PathVariable @Positive Long userId,
+                                          @PathVariable @Positive Long eventId,
+                                          @RequestBody @Valid UpdateEventUserRequest updateEventUserRequest) {
+        log.info("PrivateEventsController: PATCH /users/{}/events/{} - DTO - {}",
                 userId, eventId, updateEventUserRequest);
         return eventService.updateEventByUser(userId, eventId, updateEventUserRequest);
     }
@@ -94,9 +94,9 @@ public class PrivateEventsController {
      * @return Объект DTO запроса на участие
      */
     @GetMapping("/{eventId}/requests")
-    public List<ParticipationRequestDto> readRequestsByUserId(@NotNull @PathVariable Long userId,
-                                                              @NotNull @PathVariable Long eventId) {
-        log.info("!!!!!!!!!!!!!!! PrivateEventsController: POST /users/{}/events/{}/requests", userId, eventId);
+    public List<ParticipationRequestDto> readRequestsByUserId(@PathVariable Long userId,
+                                                              @PathVariable Long eventId) {
+        log.info("PrivateEventsController: POST /users/{}/events/{}/requests", userId, eventId);
         return requestService.readRequestsByUserId(userId, eventId);
     }
 
@@ -113,10 +113,10 @@ public class PrivateEventsController {
      * @return Объект DTO запроса на участие
      */
     @PatchMapping("/{eventId}/requests")
-    public EventRequestStatusUpdateResult updateRequests(@NotNull @PathVariable Long userId,
-                                                         @NotNull @PathVariable Long eventId,
+    public EventRequestStatusUpdateResult updateRequests(@PathVariable @Positive Long userId,
+                                                         @PathVariable @Positive Long eventId,
                                                          @RequestBody EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest) {
-        log.info("!!!!!!!!!!!!!!! PrivateEventsController: PATCH /users/{}/events/{}/requests - {}", userId, eventId, eventRequestStatusUpdateRequest);
+        log.info("PrivateEventsController: PATCH /users/{}/events/{}/requests - {}", userId, eventId, eventRequestStatusUpdateRequest);
         return requestService.updateRequests(userId, eventId, eventRequestStatusUpdateRequest);
     }
 }

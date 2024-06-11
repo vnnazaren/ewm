@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Пользователь (краткая информация)
@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class UserShortDto {
 
     /**
@@ -29,5 +28,6 @@ public class UserShortDto {
      * Имя
      */
     @NotBlank(message = "Имя пользователя должно быть указано.")
+    @Size(min = 2, max = 250, message = "Длина имени должна быть от 2 до 250 символов.")
     private String name;
 }

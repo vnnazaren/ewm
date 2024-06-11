@@ -14,7 +14,7 @@ public interface CategoryService {
 
     CategoryDto readCategory(Long catId);
 
-    List<CategoryDto> readCategories();
+    List<CategoryDto> readCategories(Integer from, Integer size);
 
     CategoryDto updateCategory(Long catId, NewCategoryDto newCategoryDto);
 

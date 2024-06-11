@@ -5,11 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+
+import static ru.practicum.mainservice.util.Const.DATE_TIME_FORMAT;
 
 /**
  * Краткая информация о событии
@@ -18,7 +19,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class EventShortDto {
 
     /**
@@ -41,7 +41,7 @@ public class EventShortDto {
      * Дата и время на которые намечено событие (в формате "yyyy-MM-dd HH:mm:ss")
      */
     @NotNull(message = "Дата и время события должны быть указаны.")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private LocalDateTime eventDate;
 
     /**

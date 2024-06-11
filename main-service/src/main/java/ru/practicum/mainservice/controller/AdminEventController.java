@@ -2,22 +2,25 @@ package ru.practicum.mainservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.EventFullDto;
 import ru.practicum.mainservice.dto.UpdateEventAdminRequest;
 import ru.practicum.mainservice.service.EventService;
-import ru.practicum.mainservice.util.Status;
+import ru.practicum.mainservice.util.EventStatus;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static ru.practicum.mainservice.util.Const.DATE_TIME_FORMAT;
 
 /**
  * Класс-контроллер EVENT
  */
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/events")
@@ -32,19 +35,19 @@ public class AdminEventController {
      * @return Коллекция объектов DTO с событиями
      */
     @GetMapping
-    public List<EventFullDto> searchEventsByAdmin(@RequestParam List<Long> users,
-                                                  @RequestParam List<Status> states,
-                                                  @RequestParam List<Long> categories,
-                                                  @RequestParam LocalDateTime rangeStart,
-                                                  @RequestParam LocalDateTime rangeEnd,
-                                                  @RequestParam Integer from,
-                                                  @RequestParam Integer size,
-                                                  HttpServletRequest httpServletRequest) {
-        log.info("!!!!!!!!!!!!!!! AdminEventController: GET /admin/events?users={}&states={}&categories={}&rangeStart={}&rangeEnd={}&from={}&size={}, httpServletRequest={}",
-                users, states, categories, rangeStart, rangeEnd, from, size, httpServletRequest.getRequestURI());
+    public List<EventFullDto> searchEventsByAdmin(@RequestParam(name = "users", required = false) List<Long> users,
+                                                  @RequestParam(name = "states", required = false) List<EventStatus> states,
+                                                  @RequestParam(name = "categories", required = false) List<Long> categories,
+                                                  @RequestParam(name = "rangeStart", required = false)
+                                                  @DateTimeFormat(pattern = DATE_TIME_FORMAT) LocalDateTime startDate,
+                                                  @RequestParam(name = "rangeEnd", required = false)
+                                                  @DateTimeFormat(pattern = DATE_TIME_FORMAT) LocalDateTime endDate,
+                                                  @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                                  @RequestParam(name = "size", defaultValue = "10") @Positive Integer size) {
+        log.info("AdminEventController: GET /admin/events?users={}&states={}&categories={}&rangeStart={}&rangeEnd={}&from={}&size={}",
+                users, states, categories, startDate, endDate, from, size);
 
-        return eventService.searchEventsByAdmin(users, states, categories, rangeStart, rangeEnd, from, size,
-                httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI());
+        return eventService.searchEventsByAdmin(users, states, categories, startDate, endDate, from, size);
     }
 
     /**
@@ -59,9 +62,9 @@ public class AdminEventController {
      * @return Объект DTO события с изменёнными полями
      */
     @PatchMapping("/{eventId}")
-    public EventFullDto updateEventByAdmin(@PathVariable Long eventId,
-                                           @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
-        log.info("!!!!!!!!!!!!!!! AdminEventController: PATCH /admin/events/{} - {}", eventId, updateEventAdminRequest);
+    public EventFullDto updateEventByAdmin(@PathVariable(name = "eventId") Long eventId,
+                                           @RequestBody @Valid UpdateEventAdminRequest updateEventAdminRequest) {
+        log.info("AdminEventController: PATCH /admin/events/{} - {}", eventId, updateEventAdminRequest);
         return eventService.updateEventByAdmin(eventId, updateEventAdminRequest);
     }
 }

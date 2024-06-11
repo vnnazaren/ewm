@@ -1,6 +1,6 @@
 package ru.practicum.mainservice.util;
 
-public enum Status {
+public enum EventStatus {
     PENDING,
     CANCELED,
     PUBLISHED,

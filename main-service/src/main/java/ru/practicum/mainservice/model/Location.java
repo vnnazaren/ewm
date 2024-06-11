@@ -24,18 +24,18 @@ public class Location {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     /**
      * Широта
      */
-    @Column(name = "lat", nullable = false)
+    @Column(name = "lat")
     private Float lat;
 
     /**
      * Долгота
      */
-    @Column(name = "lon", nullable = false)
+    @Column(name = "lon")
     private Float lon;
 }

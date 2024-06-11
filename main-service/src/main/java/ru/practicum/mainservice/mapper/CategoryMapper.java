@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.model.mapper;
+package ru.practicum.mainservice.mapper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class CategoryMapper {
                 .name(categoryDto.getName())
                 .build();
     }
-    
+
     public static Category toCategory(final NewCategoryDto newCategoryDto) {
         return Category.builder()
                 .name(newCategoryDto.getName())

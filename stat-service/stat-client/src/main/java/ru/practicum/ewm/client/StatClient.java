@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.ewm.dto.EventDto;
+import ru.practicum.ewm.dto.HitDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,8 +26,8 @@ public class StatClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> saveHit(EventDto eventDto) {
-        return post("/hit", eventDto);
+    public void saveHit(HitDto eventDto) {
+        post("/hit", eventDto);
     }
 
     public ResponseEntity<Object> getStats(LocalDateTime start, LocalDateTime end, Boolean unique, List<String> uris) {

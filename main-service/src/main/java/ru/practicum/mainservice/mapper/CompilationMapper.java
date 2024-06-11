@@ -1,10 +1,13 @@
-package ru.practicum.mainservice.model.mapper;
+package ru.practicum.mainservice.mapper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ru.practicum.mainservice.dto.CompilationDto;
 import ru.practicum.mainservice.dto.NewCompilationDto;
 import ru.practicum.mainservice.model.Compilation;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompilationMapper {
@@ -14,6 +17,9 @@ public class CompilationMapper {
                 .id(compilation.getId())
                 .pinned(compilation.getPinned())
                 .title(compilation.getTitle())
+                .events(compilation.getEvents().stream()
+                        .map(EventMapper::toEventShortDto)
+                        .collect(Collectors.toList()))
                 .build();
     }
 
@@ -22,6 +28,7 @@ public class CompilationMapper {
                 .id(compilationDto.getId())
                 .pinned(compilationDto.getPinned())
                 .title(compilationDto.getTitle())
+                .events(Set.of())
                 .build();
     }
 
@@ -29,6 +36,7 @@ public class CompilationMapper {
         return Compilation.builder()
                 .pinned(newCompilationDto.isPinned())
                 .title(newCompilationDto.getTitle())
+                .events(Set.of())
                 .build();
     }
 }

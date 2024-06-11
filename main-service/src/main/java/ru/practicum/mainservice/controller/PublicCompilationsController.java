@@ -2,18 +2,18 @@ package ru.practicum.mainservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.CompilationDto;
 import ru.practicum.mainservice.service.CompilationService;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
  * Класс-контроллер COMPILATION для публичного доступа
  */
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/compilations")
@@ -27,9 +27,9 @@ public class PublicCompilationsController {
      */
     @GetMapping
     public List<CompilationDto> readCompilations(@RequestParam Boolean pinned,
-                                                 @RequestParam(defaultValue = "0") int from,
-                                                 @RequestParam(defaultValue = "10") int size) {
-        log.info("!!!!!!!!!!!!!!! PublicCompilationsController: GET /compilations?pinned={}&from={}&size={}", pinned, from, size);
+                                                 @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+                                                 @RequestParam(defaultValue = "10") @Positive Integer size) {
+        log.info("PublicCompilationsController: GET /compilations?pinned={}&from={}&size={}", pinned, from, size);
         return compilationService.readCompilations(pinned, from, size);
     }
 
@@ -40,8 +40,8 @@ public class PublicCompilationsController {
      * @return Объект DTO подборки событий
      */
     @GetMapping("/{compId}")
-    public CompilationDto readCompilation(@PathVariable Long compId) {
-        log.info("!!!!!!!!!!!!!!! PublicCompilationsController: GET /compilations/{}", compId);
+    public CompilationDto readCompilation(@PathVariable @Positive Long compId) {
+        log.info("PublicCompilationsController: GET /compilations/{}", compId);
         return compilationService.readCompilation(compId);
     }
 }

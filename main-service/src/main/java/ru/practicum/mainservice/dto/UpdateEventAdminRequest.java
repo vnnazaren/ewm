@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
+import ru.practicum.mainservice.util.EventState;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+
+import static ru.practicum.mainservice.util.Const.DATE_TIME_FORMAT;
 
 /**
  * Данные для изменения информации о событии.
@@ -18,7 +20,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class UpdateEventAdminRequest {
 
     /**
@@ -30,7 +31,7 @@ public class UpdateEventAdminRequest {
     /**
      * Новая категория
      */
-    private int category;
+    private Long category;
 
     /**
      * Новое описание
@@ -42,7 +43,7 @@ public class UpdateEventAdminRequest {
      * Новые дата и время на которые намечено событие.
      * Дата и время указываются в формате "yyyy-MM-dd HH:mm:ss"
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private LocalDateTime eventDate;
 
     /**
@@ -53,22 +54,22 @@ public class UpdateEventAdminRequest {
     /**
      * Новое значение флага о платности мероприятия
      */
-    private boolean paid;
+    private Boolean paid;
 
     /**
      * Новый лимит пользователей
      */
-    private int participantLimit;
+    private Integer participantLimit;
 
     /**
      * Нужна ли пре-модерация заявок на участие
      */
-    private boolean requestModeration;
+    private Boolean requestModeration;
 
     /**
      * Новое состояние события
      */
-    private String stateAction;
+    private EventState stateAction;
 
     /**
      * Новый заголовок

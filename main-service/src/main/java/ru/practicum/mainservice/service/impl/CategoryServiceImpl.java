@@ -2,14 +2,15 @@ package ru.practicum.mainservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.dto.CategoryDto;
 import ru.practicum.mainservice.dto.NewCategoryDto;
 import ru.practicum.mainservice.exceptions.EntityNotFoundException;
 import ru.practicum.mainservice.exceptions.WrongParameterException;
+import ru.practicum.mainservice.mapper.CategoryMapper;
 import ru.practicum.mainservice.model.Category;
-import ru.practicum.mainservice.model.mapper.CategoryMapper;
 import ru.practicum.mainservice.service.CategoryService;
 import ru.practicum.mainservice.storage.CategoryRepository;
 
@@ -29,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
             return CategoryMapper.toCategoryDto(categoryRepository.save(CategoryMapper.toCategory(newCategoryDto)));
         } catch (DataIntegrityViolationException e) {
             throw new WrongParameterException(String.format(
-                    "Ошибка при создании пользователя %s", newCategoryDto
+                    "Ошибка при создании категории %s", newCategoryDto
             ));
         }
     }
@@ -41,8 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> readCategories() {
-        return categoryRepository.findAll().stream()
+    public List<CategoryDto> readCategories(Integer from, Integer size) {
+        return categoryRepository.findAll(PageRequest.of(from, size)).getContent().stream()
                 .map(CategoryMapper::toCategoryDto)
                 .collect(Collectors.toList());
     }
@@ -62,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
             return CategoryMapper.toCategoryDto(categoryRepository.save(category));
         } catch (DataIntegrityViolationException e) {
             throw new WrongParameterException(String.format(
-                    "Ошибка при обновлении пользователя c ID %s", category.getId()
+                    "Ошибка в БД при обновлении пользователя c ID %s", category.getId()
             ));
         }
     }

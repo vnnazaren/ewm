@@ -3,12 +3,10 @@ package ru.practicum.mainservice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.ParticipationRequestDto;
 import ru.practicum.mainservice.service.RequestService;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -16,7 +14,6 @@ import java.util.List;
  * Закрытый API для работы с запросами текущего пользователя на участие в событиях
  */
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/users/{userId}/requests")
@@ -32,8 +29,8 @@ public class PrivateRequestsController {
      * @return Список DTO запросов на участие
      */
     @GetMapping
-    public List<ParticipationRequestDto> readUserRequests(@PathVariable @NotNull Long userId) { // todo - это образец оформления переменной
-        log.info("!!!!!!!!!!!!!!! PrivateRequestsController: GET /users/{}/requests", userId);
+    public List<ParticipationRequestDto> readUserRequests(@PathVariable Long userId) {
+        log.info("PrivateRequestsController: GET /users/{}/requests", userId);
         return requestService.readRequests(userId);
     }
 
@@ -53,7 +50,7 @@ public class PrivateRequestsController {
     @ResponseStatus(HttpStatus.CREATED)
     public ParticipationRequestDto createRequests(@PathVariable Long userId,
                                                   @RequestParam Long eventId) {
-        log.info("!!!!!!!!!!!!!!! PrivateRequestsController: POST /users/{}/requests?eventId={}", userId, eventId);
+        log.info("PrivateRequestsController: POST /users/{}/requests?eventId={}", userId, eventId);
         return requestService.createRequests(userId, eventId);
     }
 
@@ -65,9 +62,9 @@ public class PrivateRequestsController {
      * @return Объект DTO категории с изменёнными полями
      */
     @PatchMapping("/{requestId}/cancel")
-    public ParticipationRequestDto cancelRequests(@PathVariable @NotNull Long userId,
-                                                  @PathVariable @NotNull Long requestId) {
-        log.info("!!!!!!!!!!!!!!! PrivateRequestsController: PATCH /users/{}/requests/{}/cancel", userId, requestId);
+    public ParticipationRequestDto cancelRequests(@PathVariable Long userId,
+                                                  @PathVariable Long requestId) {
+        log.info("PrivateRequestsController: PATCH /users/{}/requests/{}/cancel", userId, requestId);
         return requestService.cancelRequests(userId, requestId);
     }
 }

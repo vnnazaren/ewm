@@ -13,8 +13,6 @@ public interface RequestService {
 
     ParticipationRequestDto createRequests(Long userId, Long eventId);
 
-    List<ParticipationRequestDto> readRequest(Long userId, Long eventId);
-
     List<ParticipationRequestDto> readRequestsByUserId(Long userId, Long eventId);
 
     List<ParticipationRequestDto> readRequests(Long userId);

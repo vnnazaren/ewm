@@ -1,19 +1,19 @@
 package ru.practicum.ewm.service;
 
-import ru.practicum.ewm.dto.EventDto;
+import ru.practicum.ewm.dto.HitDto;
 import ru.practicum.ewm.dto.StatDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Интерфейс класса-сервиса EVENT
+ * Интерфейс класса-сервиса HIT
  */
-public interface EventService {
+public interface HitService {
 
-    void saveEvent(EventDto eventDtoRequest);
+    void saveHit(HitDto hitDtoRequest);
 
-    List<StatDto> getEventsInfo(List<String> uris,
+    List<StatDto> getHitsInfo(List<String> uris,
                                 Boolean unique,
                                 LocalDateTime start,
                                 LocalDateTime end);

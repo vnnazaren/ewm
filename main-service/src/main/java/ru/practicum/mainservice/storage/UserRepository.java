@@ -10,5 +10,6 @@ import java.util.List;
  * Интерфейс класса-репозитория USER
  */
 public interface UserRepository extends JpaRepository<User, Long> {
+
     List<User> findAllByIdIn(List<Long> ids, Pageable pageable);
 }

@@ -2,15 +2,15 @@ package ru.practicum.mainservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.CategoryDto;
 import ru.practicum.mainservice.service.CategoryService;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/categories")
@@ -23,10 +23,10 @@ public class PublicCategoriesController {
      * @return Коллекция объектов DTO с подборками событий
      */
     @GetMapping
-    public List<CategoryDto> readCategories(@RequestParam(defaultValue = "0") int from,
-                                            @RequestParam(defaultValue = "10") int size) {
-        log.info("!!!!!!!!!!!!!!! PublicCategoriesController: GET /categories?from={}&size={}", from, size);
-        return categoryService.readCategories();
+    public List<CategoryDto> readCategories(@RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+                                            @RequestParam(defaultValue = "10") @Positive Integer size) {
+        log.info("PublicCategoriesController: GET /categories?from={}&size={}", from, size);
+        return categoryService.readCategories(from, size);
     }
 
     /**
@@ -36,8 +36,8 @@ public class PublicCategoriesController {
      * @return Объект DTO подборки событий
      */
     @GetMapping("/{catId}")
-    public CategoryDto readCategory(@PathVariable Long catId) {
-        log.info("!!!!!!!!!!!!!!! PublicCategoriesController: GET /categories/{}", catId);
+    public CategoryDto readCategory(@PathVariable @Positive Long catId) {
+        log.info("PublicCategoriesController: GET /categories/{}", catId);
         return categoryService.readCategory(catId);
     }
 }

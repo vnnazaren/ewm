@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
-import ru.practicum.mainservice.util.Status;
+import ru.practicum.mainservice.util.EventStatus;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +16,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class ParticipationRequestDto {
 
     /**
@@ -44,5 +42,5 @@ public class ParticipationRequestDto {
     /**
      * Статус заявки
      */
-    private Status status;
+    private EventStatus status;
 }

@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+
+import static ru.practicum.mainservice.util.Const.DATE_TIME_FORMAT;
 
 /**
  * Новое событие
@@ -19,7 +20,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class NewEventDto {
 
     /**
@@ -40,7 +40,7 @@ public class NewEventDto {
      * Дата и время на которые намечено событие. Дата и время указываются в формате "yyyy-MM-dd HH:mm:ss"
      */
     @NotNull(message = "Дата и время события должны быть указаны.")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private LocalDateTime eventDate;
 
     /**
@@ -51,14 +51,14 @@ public class NewEventDto {
     /**
      * Ограничение на количество участников. Значение 0 - означает отсутствие ограничения
      */
-    private int participantLimit;
+    private Integer participantLimit;
 
     /**
      * Нужна ли пре-модерация заявок на участие.
      * Если true, то все заявки будут ожидать подтверждения инициатором события.
      * Если false - то будут подтверждаться автоматически.
      */
-    private boolean requestModeration;
+    private Boolean requestModeration;
 
     /**
      * Заголовок события

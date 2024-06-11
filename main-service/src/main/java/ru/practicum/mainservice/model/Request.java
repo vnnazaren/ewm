@@ -1,10 +1,13 @@
 package ru.practicum.mainservice.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import ru.practicum.mainservice.util.Status;
+import ru.practicum.mainservice.util.EventStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -56,5 +59,5 @@ public class Request {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private Status status;
+    private EventStatus status;
 }

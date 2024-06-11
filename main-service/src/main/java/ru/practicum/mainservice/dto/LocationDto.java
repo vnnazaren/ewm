@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 /**
  * Широта и долгота места проведения события
@@ -13,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class LocationDto {
 
     /**

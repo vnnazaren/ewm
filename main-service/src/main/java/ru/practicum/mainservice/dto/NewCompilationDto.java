@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Класс DTO для создания класса "Подборка событий" - COMPILATION
@@ -17,13 +16,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class NewCompilationDto {
 
     /**
      * Список событий входящих в подборку
      */
-    private List<Long> events;
+    private Set<Long> events;
 
     /**
      * Закреплена ли подборка на главной странице сайта

@@ -3,7 +3,6 @@ package ru.practicum.mainservice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.EventFullDto;
 import ru.practicum.mainservice.dto.EventShortDto;
@@ -15,13 +14,16 @@ import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static ru.practicum.mainservice.util.Const.DATE_TIME_FORMAT;
+
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/events")
 public class PublicEventsController {
     private final EventService eventService;
+
+    // 3
 
     /**
      * Получение подробной информации об опубликованном событии по его идентификатору<br/>
@@ -33,10 +35,13 @@ public class PublicEventsController {
      * @return Коллекция объектов DTO с пользователями
      */
     @GetMapping("/{id}")
-    public EventFullDto readEventById(@PathVariable Long id) {
-        log.info("!!!!!!!!!!!!!!! PublicEventsController: GET /events/{}", id);
-        return eventService.readEvent(id);
+    public EventFullDto readEventById(@PathVariable @Positive Long id,
+                                      HttpServletRequest httpServletRequest) {
+        log.info("PublicEventsController: GET /events/{}", id);
+        return eventService.readEventById(id, httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI());
     }
+
+    // 8
 
     /**
      * Получение событий с возможностью фильтрации<br/>
@@ -59,20 +64,19 @@ public class PublicEventsController {
      * @return Коллекция объектов DTO с пользователями
      */
     @GetMapping
-    public List<EventShortDto> searchEventsByUser(@RequestParam String text,
-                                                  @RequestParam List<Long> categories,
-                                                  @RequestParam Boolean paid,
-                                                  @RequestParam
-                                                  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
-                                                  @RequestParam
-                                                  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
-                                                  @RequestParam Boolean onlyAvailable,
-                                                  @RequestParam(defaultValue = "event_date") String sort,
-                                                  @RequestParam(defaultValue = "0") @PositiveOrZero int from,
-                                                  @RequestParam(defaultValue = "10") @Positive int size,
+    public List<EventShortDto> searchEventsByUser(@RequestParam(required = false) String text,
+                                                  @RequestParam(required = false) List<Long> categories,
+                                                  @RequestParam(required = false) Boolean paid,
+                                                  @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME_FORMAT) LocalDateTime rangeStart,
+                                                  @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME_FORMAT) LocalDateTime rangeEnd,
+                                                  @RequestParam(required = false) Boolean onlyAvailable,
+                                                  @RequestParam(defaultValue = "EVENT_DATE") String sort,
+                                                  @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+                                                  @RequestParam(defaultValue = "10") @Positive Integer size,
                                                   HttpServletRequest httpServletRequest) {
-        log.info("!!!!!!!!!!!!!!! PublicEventsController: GET /events?text={}&categories={}&paid={}&rangeStart={}&rangeEnd={}&onlyAvailable={}&sort={}&from={}&size={}, httpServletRequest.getRequestURI()={}",
+        log.info("PublicEventsController: GET /events?text={}&categories={}&paid={}&rangeStart={}&rangeEnd={}&onlyAvailable={}&sort={}&from={}&size={}, httpServletRequest.getRequestURI()={}",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, httpServletRequest.getRequestURI());
-        return eventService.searchEventsByUser(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI());
+        return eventService.searchEventsByUser(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
+                from, size, httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI());
     }
 }

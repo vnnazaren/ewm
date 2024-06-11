@@ -3,20 +3,20 @@ package ru.practicum.mainservice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.NewUserRequest;
 import ru.practicum.mainservice.dto.UserDto;
 import ru.practicum.mainservice.service.UserService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
  * Класс-контроллер USER
  */
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/users")
@@ -32,9 +32,9 @@ public class AdminUserController {
      */
     @GetMapping
     public List<UserDto> readUsers(@RequestParam(required = false) List<Long> ids,
-                                   @RequestParam(defaultValue = "0") int from,
-                                   @RequestParam(defaultValue = "10") int size) {
-        log.info("!!!!!!!!!!!!!!! AdminUserController: GET /users?ids={}&from={}&size={}", ids, from, size);
+                                   @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+                                   @RequestParam(defaultValue = "10") @Positive Integer size) {
+        log.info("AdminUserController: GET /users?ids={}&from={}&size={}", ids, from, size);
         return adminUserService.readUsers(ids, from, size);
     }
 
@@ -47,7 +47,7 @@ public class AdminUserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody @Valid NewUserRequest newUserRequest) {
-        log.info("!!!!!!!!!!!!!!! AdminUserController: POST /users - {}", newUserRequest);
+        log.info("AdminUserController: POST /users - {}", newUserRequest);
         return adminUserService.createUser(newUserRequest);
     }
 
@@ -59,7 +59,7 @@ public class AdminUserController {
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long userId) {
-        log.info("!!!!!!!!!!!!!!! AdminUserController: DELETE /admin/users/{}", userId);
+        log.info("AdminUserController: DELETE /admin/users/{}", userId);
         adminUserService.deleteUser(userId);
     }
 }

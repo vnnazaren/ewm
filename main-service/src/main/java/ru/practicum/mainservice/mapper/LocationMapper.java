@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.model.mapper;
+package ru.practicum.mainservice.mapper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
