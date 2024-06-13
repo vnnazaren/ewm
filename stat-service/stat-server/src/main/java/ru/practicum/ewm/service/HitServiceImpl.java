@@ -2,6 +2,7 @@ package ru.practicum.ewm.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.dto.HitDto;
 import ru.practicum.ewm.dto.StatDto;
 import ru.practicum.ewm.exceptions.BadRequestException;
@@ -21,11 +22,14 @@ public class HitServiceImpl implements HitService {
     private final HitRepository hitRepository;
 
     @Override
+    @Transactional
     public void saveHit(HitDto hitDtoRequest) {
         hitRepository.save(Mapper.toHit(hitDtoRequest));
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public List<StatDto> getHitsInfo(List<String> uris,
                                      Boolean unique,
                                      LocalDateTime start,
@@ -33,7 +37,7 @@ public class HitServiceImpl implements HitService {
 
         checkCorrectDates(start, end);
 
-        if (uris.isEmpty()) {
+        if (uris == null || uris.isEmpty()) {
             if (unique) {
                 return hitRepository.getUniqueHits(start, end).stream()
                         .map(Mapper::toUriStatDto)
