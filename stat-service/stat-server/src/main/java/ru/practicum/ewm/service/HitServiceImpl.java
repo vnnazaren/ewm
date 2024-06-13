@@ -27,7 +27,6 @@ public class HitServiceImpl implements HitService {
         hitRepository.save(Mapper.toHit(hitDtoRequest));
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public List<StatDto> getHitsInfo(List<String> uris,

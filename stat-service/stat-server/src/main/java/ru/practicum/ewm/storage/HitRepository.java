@@ -14,7 +14,6 @@ import java.util.List;
  */
 public interface HitRepository extends JpaRepository<Hit, Long> {
 
-    // тупо все
     @Query(value = "select new ru.practicum.ewm.model.Stat( h.app, h.uri, count(h.ipAddress)) " +
             "from Hit as h " +
             "where h.hitDate between :start and :end " +
@@ -23,7 +22,6 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
     List<Stat> getHits(@Param("start") LocalDateTime start,
                        @Param("end") LocalDateTime end);
 
-    // тупо все и считаем уникальные IP
     @Query(value = "select new ru.practicum.ewm.model.Stat(h.app, h.uri, count(distinct h.ipAddress)) " +
             " from Hit as h " +
             " where h.hitDate between :start and :end " +
@@ -32,7 +30,6 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
     List<Stat> getUniqueHits(@Param("start") LocalDateTime start,
                              @Param("end") LocalDateTime end);
 
-    // по списку URI
     @Query(value = "select new ru.practicum.ewm.model.Stat(h.app, h.uri, count(h.ipAddress)) " +
             " from Hit as h " +
             " where h.hitDate between :start and :end " +
@@ -43,7 +40,6 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
                              @Param("start") LocalDateTime start,
                              @Param("end") LocalDateTime end);
 
-    // по списку URI и уникальные IP
     @Query(value = "select new ru.practicum.ewm.model.Stat(h.app, h.uri, count(distinct h.ipAddress)) " +
             " from Hit as h " +
             " where h.hitDate between :start and :end " +

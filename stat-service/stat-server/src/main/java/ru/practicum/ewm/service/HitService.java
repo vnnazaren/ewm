@@ -14,7 +14,7 @@ public interface HitService {
     void saveHit(HitDto hitDtoRequest);
 
     List<StatDto> getHitsInfo(List<String> uris,
-                                Boolean unique,
-                                LocalDateTime start,
-                                LocalDateTime end);
+                              Boolean unique,
+                              LocalDateTime start,
+                              LocalDateTime end);
 }
