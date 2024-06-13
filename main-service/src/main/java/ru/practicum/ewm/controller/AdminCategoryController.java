@@ -19,7 +19,7 @@ import javax.validation.constraints.Positive;
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/categories")
 public class AdminCategoryController {
-    private final CategoryService CategoryService;
+    private final CategoryService categoryService;
 
     /**
      * Добавление новой категории
@@ -31,7 +31,7 @@ public class AdminCategoryController {
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto createCategory(@RequestBody @Valid NewCategoryDto newCategoryDto) {
         log.info("AdminCategoryController: POST /admin/categories - {}", newCategoryDto);
-        return CategoryService.createCategory(newCategoryDto);
+        return categoryService.createCategory(newCategoryDto);
     }
 
     /**
@@ -45,7 +45,7 @@ public class AdminCategoryController {
     public CategoryDto updateCategory(@PathVariable Long catId,
                                       @RequestBody @Valid NewCategoryDto newCategoryDto) {
         log.info("AdminCategoryController: PATCH /admin/categories/{} - {}", catId, newCategoryDto);
-        return CategoryService.updateCategory(catId, newCategoryDto);
+        return categoryService.updateCategory(catId, newCategoryDto);
     }
 
     /**
@@ -57,6 +57,6 @@ public class AdminCategoryController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable @Positive Long catId) {
         log.info("AdminCategoryController: DELETE /admin/categories/{}", catId);
-        CategoryService.deleteCategoryById(catId);
+        categoryService.deleteCategoryById(catId);
     }
 }
