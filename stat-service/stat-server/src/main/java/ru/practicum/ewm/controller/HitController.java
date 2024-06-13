@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.dto.HitDto;
 import ru.practicum.ewm.dto.StatDto;
@@ -36,7 +35,7 @@ public class HitController {
             @RequestParam @DateTimeFormat(pattern = DATE_TIME_FORMAT) LocalDateTime start,
             @RequestParam @DateTimeFormat(pattern = DATE_TIME_FORMAT) LocalDateTime end,
             @RequestParam(defaultValue = "false") boolean unique,
-            @RequestParam @Nullable List<String> uris) {
+            @RequestParam(required = false) List<String> uris) {
         log.info("GET /stats - uris: {}, unique: {}, start: {}, end: {}", uris, unique, start, end);
         if (uris == null) {
             uris = List.of();

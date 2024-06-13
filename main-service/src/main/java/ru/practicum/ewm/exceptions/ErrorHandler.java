@@ -12,15 +12,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-import static ru.practicum.ewm.util.Const.DATE_TIME_FORMAT;
+import static ru.practicum.ewm.util.Const.FORMATTER;
 
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
-
-    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
 
     @ExceptionHandler({BadRequestException.class,
             MissingServletRequestParameterException.class,
@@ -35,7 +32,7 @@ public class ErrorHandler {
                         .message(e.getMessage())
                         .reason("Bad request.")
                         .status(HttpStatus.BAD_REQUEST.name())
-                        .timestamp(LocalDateTime.now().format(FORMAT))
+                        .timestamp(LocalDateTime.now().format(FORMATTER))
                         .build());
     }
 
@@ -48,7 +45,7 @@ public class ErrorHandler {
                         .message(e.getMessage())
                         .reason("Not found.")
                         .status(HttpStatus.NOT_FOUND.name())
-                        .timestamp(LocalDateTime.now().format(FORMAT))
+                        .timestamp(LocalDateTime.now().format(FORMATTER))
                         .build());
     }
 
@@ -63,7 +60,7 @@ public class ErrorHandler {
                         .message(e.getMessage())
                         .reason("Conflict.")
                         .status(HttpStatus.CONFLICT.name())
-                        .timestamp(LocalDateTime.now().format(FORMAT))
+                        .timestamp(LocalDateTime.now().format(FORMATTER))
                         .build());
     }
 
@@ -76,7 +73,7 @@ public class ErrorHandler {
                         .message(t.getMessage())
                         .reason("Internal server error.")
                         .status(HttpStatus.INTERNAL_SERVER_ERROR.name())
-                        .timestamp(LocalDateTime.now().format(FORMAT))
+                        .timestamp(LocalDateTime.now().format(FORMATTER))
                         .build());
     }
 }
