@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Интерфейс класса-сервиса EVENT
+ */
 public interface EventService {
 
     EventFullDto createEvent(Long userId, NewEventDto newEventDto);

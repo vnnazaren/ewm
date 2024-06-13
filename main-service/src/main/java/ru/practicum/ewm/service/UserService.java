@@ -5,6 +5,9 @@ import ru.practicum.ewm.dto.UserDto;
 
 import java.util.List;
 
+/**
+ * Интерфейс класса-сервиса USER
+ */
 public interface UserService {
 
     UserDto createUser(NewUserRequest newUserRequest);

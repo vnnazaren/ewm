@@ -14,16 +14,12 @@ import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.practicum.ewm.util.Const.DATE_TIME_FORMAT;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/events")
 public class PublicEventsController {
     private final EventService eventService;
-
-    // 3
 
     /**
      * Получение подробной информации об опубликованном событии по его идентификатору<br/>
@@ -40,8 +36,6 @@ public class PublicEventsController {
         log.info("PublicEventsController: GET /events/{}", id);
         return eventService.readEventById(id, httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI());
     }
-
-    // 8
 
     /**
      * Получение событий с возможностью фильтрации<br/>
@@ -68,9 +62,9 @@ public class PublicEventsController {
                                                   @RequestParam(name = "categories", required = false) List<Long> categories,
                                                   @RequestParam(name = "paid", required = false) Boolean paid,
                                                   @RequestParam(name = "rangeStart", required = false)
-                                                      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
+                                                  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
                                                   @RequestParam(name = "rangeEnd", required = false)
-                                                      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
+                                                  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
                                                   @RequestParam(name = "onlyAvailable", required = false) Boolean onlyAvailable,
                                                   @RequestParam(name = "sort", defaultValue = "event_date") String sort,
                                                   @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,

@@ -23,15 +23,6 @@ public class CompilationMapper {
                 .build();
     }
 
-    public static Compilation toCompilation(final CompilationDto compilationDto) {
-        return Compilation.builder()
-                .id(compilationDto.getId())
-                .pinned(compilationDto.getPinned())
-                .title(compilationDto.getTitle())
-                .events(Set.of())
-                .build();
-    }
-
     public static Compilation toCompilation(final NewCompilationDto newCompilationDto) {
         return Compilation.builder()
                 .pinned(newCompilationDto.isPinned())

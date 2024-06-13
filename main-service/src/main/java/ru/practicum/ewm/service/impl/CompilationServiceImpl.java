@@ -52,7 +52,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public List<CompilationDto> readCompilations(Boolean pinned, int from, int size) {
+    public List<CompilationDto> readCompilations(Boolean pinned, Integer from, Integer size) {
         PageRequest page = PageRequest.of(from / size, size);
 
         return compilationRepository.findAllByPinned(pinned, page).stream()

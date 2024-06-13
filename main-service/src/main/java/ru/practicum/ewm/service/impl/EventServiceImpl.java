@@ -1,24 +1,20 @@
 package ru.practicum.ewm.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.client.StatClient;
 import ru.practicum.ewm.dto.*;
+import ru.practicum.ewm.exceptions.BadRequestException;
 import ru.practicum.ewm.exceptions.ConflictException;
 import ru.practicum.ewm.exceptions.EntityNotFoundException;
-import ru.practicum.ewm.exceptions.WrongParameterException;
 import ru.practicum.ewm.mapper.CategoryMapper;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.mapper.LocationMapper;
 import ru.practicum.ewm.mapper.UserMapper;
-import ru.practicum.ewm.model.Category;
 import ru.practicum.ewm.model.Event;
 import ru.practicum.ewm.model.User;
 import ru.practicum.ewm.service.CategoryService;
@@ -34,8 +30,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static ru.practicum.ewm.util.Const.HOURS_BEFORE_EVENT_ADMIN;
-import static ru.practicum.ewm.util.Const.HOURS_BEFORE_EVENT_USER;
+import static ru.practicum.ewm.util.Const.*;
 
 @RequiredArgsConstructor
 @Service
@@ -50,14 +45,12 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public EventFullDto createEvent(Long userId, NewEventDto eventNewDto) {
 
-        checkTimeBeforeEventStart(eventNewDto.getEventDate(), HOURS_BEFORE_EVENT_USER);
+        checkTimeBeforeEvent(eventNewDto.getEventDate(), HOURS_BEFORE_EVENT_USER);
 
         Event event = EventMapper.toEvent(eventNewDto);
-        Category category = CategoryMapper.toCategory(categoryService.readCategory(eventNewDto.getCategory()));
-        User user = UserMapper.toUser(userService.readUser(userId));
 
-        event.setCategory(category);
-        event.setInitiator(user);
+        event.setCategory(CategoryMapper.toCategory(categoryService.readCategory(eventNewDto.getCategory())));
+        event.setInitiator(UserMapper.toUser(userService.readUser(userId)));
         event.setCreatedOn(LocalDateTime.now());
         event.setState(EventStatus.PENDING);
 
@@ -115,109 +108,104 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findAllByIdIn(events);
     }
 
-
     @Override
-    public List<EventFullDto> searchEventsByAdmin(List<Long> users, List<EventStatus> states, List<Long> categories, // todo - переделать, особенно после изучения спецификаций
+    public List<EventFullDto> searchEventsByAdmin(List<Long> users, List<EventStatus> states, List<Long> categories,
                                                   LocalDateTime startDate, LocalDateTime endDate,
                                                   Integer from, Integer size) {
+
+        checkCorrectDates(startDate, endDate);
 
         PageRequest page = PageRequest.of(from / size, size, Sort.by(
                 Sort.Direction.ASC, "id"));
 
         Specification<Event> specification = Specification.where(null);
 
-//        if (startDate != null) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    criteriaBuilder.greaterThanOrEqualTo(root.get("eventDate"), startDate));
-//        }
-//
-//        if (endDate != null) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    criteriaBuilder.lessThanOrEqualTo(root.get("eventDate"), endDate));
-//        }
-//
-//        if (users != null && !users.isEmpty()) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    root.get("initiator").get("id").in(users));
-//        }
-//
-//        if (categories != null && !categories.isEmpty()) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    root.get("category").get("id").in(categories));
-//        }
-//
-//        if (states != null && !states.isEmpty()) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    root.get("state").as(EventStatus.class).in(states));
-//        }
+        if (startDate != null) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("eventDate"), startDate));
+        }
 
-        Page<Event> pageData = eventRepository.findAll(specification, page);
-        List<Event> filteredData = pageData.getContent();
+        if (endDate != null) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.lessThanOrEqualTo(root.get("eventDate"), endDate));
+        }
 
-        return filteredData.stream()
+        if (users != null && !users.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    root.get("initiator").get("id").in(users));
+        }
+
+        if (categories != null && !categories.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    root.get("category").get("id").in(categories));
+        }
+
+        if (states != null && !states.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    root.get("state").as(EventStatus.class).in(states));
+        }
+
+        List<Event> events = eventRepository.findAll(specification, page);
+
+        return events.stream()
                 .map(EventMapper::toEventFullDto)
                 .collect(Collectors.toList());
     }
 
-
     @Override
-    public List<EventShortDto> searchEventsByUser(String text, List<Long> categories, Boolean paid, // todo - переделать, особенно после изучения спецификаций
+    public List<EventShortDto> searchEventsByUser(String text, List<Long> categories, Boolean paid,
                                                   LocalDateTime startDate, LocalDateTime endDate,
                                                   Boolean onlyAvailable, String sort,
                                                   Integer from, Integer size, String ip, String uri) {
 
-//        saveHitToStat(ip, uri);
+        checkCorrectDates(startDate, endDate);
+        saveHitToStat(ip, uri);
 
-        Pageable page = PageRequest.of(from / size, size, Sort.by(
+        PageRequest page = PageRequest.of(from / size, size, Sort.by(
                 Sort.Direction.ASC,
-                sort != null && sort.equalsIgnoreCase("event_date") ? "event_date" : "id"));
+                sort != null && sort.equalsIgnoreCase("event_date") ? "eventDate" : "views"));
 
         Specification<Event> specification = Specification.where(null);
 
-//        LocalDateTime startDateTime = startDate != null ? startDate : LocalDateTime.now();
-//        specification = specification.and((root, query, criteriaBuilder) ->
-//                criteriaBuilder.greaterThan(root.get("eventDate"), startDateTime));
-//
-//        if (endDate != null) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    criteriaBuilder.lessThanOrEqualTo(root.get("eventDate"), endDate));
-//        }
-//
-//        if (text != null) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    criteriaBuilder.or(
-//                            criteriaBuilder.like(criteriaBuilder.lower(root.get("annotation")),
-//                                    "%" + text.toLowerCase() + "%"),
-//                            criteriaBuilder.like(criteriaBuilder.lower(root.get("description")),
-//                                    "%" + text.toLowerCase() + "%")));
-//        }
-//
-//        if (categories != null && !categories.isEmpty()) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    root.get("category").get("id").in(categories));
-//        }
-//
-//        if (onlyAvailable != null && onlyAvailable) {
-//            specification = specification.and((root, query, criteriaBuilder) ->
-//                    criteriaBuilder.greaterThanOrEqualTo(root.get("participantLimit"), 0));
-//        }
-//
-//        specification = specification.and((root, query, criteriaBuilder) ->
-//                criteriaBuilder.equal(root.get("state"), EventStatus.PUBLISHED));
+        LocalDateTime startDateTime = startDate != null ? startDate : LocalDateTime.now();
+        specification = specification.and((root, query, criteriaBuilder) ->
+                criteriaBuilder.greaterThan(root.get("eventDate"), startDateTime));
 
-//        List<Event> events = eventRepository.findAll(specification, page);
+        if (endDate != null) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.lessThanOrEqualTo(root.get("eventDate"), endDate));
+        }
 
-        Page<Event> pageData = eventRepository.findAll(specification, page);
-        List<Event> filteredData = pageData.getContent();
+        if (text != null) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.or(
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("annotation")),
+                                    "%" + text.toLowerCase() + "%"),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("description")),
+                                    "%" + text.toLowerCase() + "%")));
+        }
 
-//        updateViewsOfEvents(events);
-//        updateViewsOfEvents(filteredData);
+        if (categories != null && !categories.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    root.get("category").get("id").in(categories));
+        }
 
-        return filteredData.stream()
+        if (onlyAvailable != null && onlyAvailable) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("participantLimit"), 0));
+        }
+
+        specification = specification.and((root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("state"), EventStatus.PUBLISHED));
+
+        List<Event> events = eventRepository.findAll(specification, page);
+
+        updateViewsOfEvents(events);
+
+        return events.stream()
                 .map(EventMapper::toEventShortDto)
                 .collect(Collectors.toList());
     }
-
 
     @Override
     @Transactional
@@ -253,7 +241,7 @@ public class EventServiceImpl implements EventService {
 
         LocalDateTime eventDate = updateEventAdminRequest.getEventDate();
         if (eventDate != null) {
-            checkTimeBeforeEventStart(eventDate, HOURS_BEFORE_EVENT_ADMIN);
+            checkTimeBeforeEvent(eventDate, HOURS_BEFORE_EVENT_ADMIN);
             event.setEventDate(eventDate);
         }
 
@@ -338,7 +326,7 @@ public class EventServiceImpl implements EventService {
 
         LocalDateTime eventDate = updateEventUserRequest.getEventDate();
         if (eventDate != null) {
-            checkTimeBeforeEventStart(eventDate, HOURS_BEFORE_EVENT_USER);
+            checkTimeBeforeEvent(eventDate, HOURS_BEFORE_EVENT_USER);
             event.setEventDate(eventDate);
         }
 
@@ -373,22 +361,19 @@ public class EventServiceImpl implements EventService {
         return EventMapper.toEventFullDto(updatedEvent);
     }
 
-    private void checkTimeBeforeEventStart(LocalDateTime startDate, int minHours) {
+    private void checkTimeBeforeEvent(LocalDateTime startDate, int minHours) {
         if (startDate.isBefore(LocalDateTime.now().plusHours(minHours))) {
-            throw new WrongParameterException(String.format("До начала события менее %s ч.", minHours));
+            throw new BadRequestException(String.format("До начала события менее %s ч.", minHours));
         }
     }
 
-    private void saveHitToStat(String ip, String uri) { // todo - статистика
-        statClient.saveHit(HitDto.builder()
-                .app("ewm-main-service")
-                .ip(ip)
-                .uri(uri)
-                .timestamp(LocalDateTime.now())
-                .build());
+    private void checkCorrectDates(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            throw new BadRequestException("Дата начала должна быть раньше даты окончания.");
+        }
     }
 
-    private void updateViewsOfEvents(List<Event> events) {  // todo - статистика
+    private void updateViewsOfEvents(List<Event> events) {
         List<String> uris = events.stream()
                 .map(event -> String.format("/events/%s", event.getId()))
                 .collect(Collectors.toList());
@@ -411,14 +396,20 @@ public class EventServiceImpl implements EventService {
         eventRepository.saveAll(events);
     }
 
-    private List<StatDto> getViewsStatistics(List<String> uris) { // todo - статистика
+    private List<StatDto> getViewsStatistics(List<String> uris) {
+        return statClient.getStats(
+                LocalDateTime.now().minusYears(100).format(FORMATTER),
+                LocalDateTime.now().plusYears(5).format(FORMATTER),
+                uris,
+                true);
+    }
 
-        ResponseEntity<Object> stats = statClient.getStats(
-                LocalDateTime.of(2024, 1, 1, 0, 0, 0),
-                LocalDateTime.of(2123, 12, 31, 23, 59, 59),
-                true,
-                uris);
-
-        return (List<StatDto>) stats.getBody();
+    private void saveHitToStat(String ip, String uri) {
+        statClient.saveHit(HitDto.builder()
+                .app("ewm-main-service")
+                .ip(ip)
+                .uri(uri)
+                .timestamp(LocalDateTime.now())
+                .build());
     }
 }

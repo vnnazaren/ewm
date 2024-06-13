@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 import static ru.practicum.ewm.util.Const.DATE_TIME_FORMAT;
@@ -29,7 +27,6 @@ public class EventShortDto {
     /**
      * Краткое описание
      */
-//    @NotBlank(message = "Краткое описание должно быть указано.")
     private String annotation;
 
     /**
@@ -40,20 +37,17 @@ public class EventShortDto {
     /**
      * Дата и время на которые намечено событие (в формате "yyyy-MM-dd HH:mm:ss")
      */
-//    @NotNull(message = "Дата и время события должны быть указаны.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private LocalDateTime eventDate;
 
     /**
      * Нужно ли оплачивать участие
      */
-//    @NotNull(message = "Должно быть указано требуется ли оплачивать участие в событии.")
     private Boolean paid;
 
     /**
      * Заголовок
      */
-//    @NotBlank(message = "Название мероприятия должно быть указано.")
     private String title;
 
     /**
@@ -64,12 +58,10 @@ public class EventShortDto {
     /**
      * Категория
      */
-//    @NotNull(message = "Категория должна быть указана.")
     private CategoryDto category;
 
     /**
      * Инициатор
      */
-//    @NotNull(message = "Инициатор события должен быть указан.")
     private UserShortDto initiator;
 }

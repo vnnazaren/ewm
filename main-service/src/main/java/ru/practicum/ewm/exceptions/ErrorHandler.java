@@ -67,16 +67,16 @@ public class ErrorHandler {
                         .build());
     }
 
-//    @ExceptionHandler
-//    public ResponseEntity<ErrorResponse> handleThrowable(final Throwable t) {
-//        log.info("HttpStatus.INTERNAL_SERVER_ERROR (500). {}", t.getMessage(), t);
-//        return ResponseEntity
-//                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                .body(ErrorResponse.builder()
-//                        .message(t.getMessage())
-//                        .reason("Internal server error.")
-//                        .status(HttpStatus.INTERNAL_SERVER_ERROR.name())
-//                        .timestamp(LocalDateTime.now().format(FORMAT))
-//                        .build());
-//    }
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleThrowable(final Throwable t) {
+        log.info("HttpStatus.INTERNAL_SERVER_ERROR (500). {}", t.getMessage(), t);
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorResponse.builder()
+                        .message(t.getMessage())
+                        .reason("Internal server error.")
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.name())
+                        .timestamp(LocalDateTime.now().format(FORMAT))
+                        .build());
+    }
 }

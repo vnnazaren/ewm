@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.ewm.util.EventState;
 
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -59,6 +60,7 @@ public class UpdateEventUserRequest {
     /**
      * Новый лимит пользователей
      */
+    @PositiveOrZero
     private Integer participantLimit;
 
     /**

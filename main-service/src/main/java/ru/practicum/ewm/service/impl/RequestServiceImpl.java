@@ -98,7 +98,12 @@ public class RequestServiceImpl implements RequestService {
         User user = UserMapper.toUser(userService.readUser(userId));
         Event event = EventMapper.toEvent(eventService.readEvent(eventId));
 
-        if (event.getInitiator().equals(user)) {
+        User user2 = event.getInitiator();
+
+        System.out.println(user);
+        System.out.println(user2);
+
+        if (event.getInitiator().getId().equals(user.getId())) {
             return requestRepository.findAllByEvent(event).stream()
                     .map(RequestMapper::toParticipationRequestDto)
                     .collect(Collectors.toList());

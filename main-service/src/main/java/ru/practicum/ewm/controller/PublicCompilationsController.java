@@ -26,7 +26,7 @@ public class PublicCompilationsController {
      * @return Коллекция объектов DTO с подборками событий
      */
     @GetMapping
-    public List<CompilationDto> readCompilations(@RequestParam(required = false)  Boolean pinned,
+    public List<CompilationDto> readCompilations(@RequestParam(required = false) Boolean pinned,
                                                  @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                                  @RequestParam(defaultValue = "10") @Positive Integer size) {
         log.info("PublicCompilationsController: GET /compilations?pinned={}&from={}&size={}", pinned, from, size);
