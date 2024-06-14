@@ -2280,7 +2280,7 @@
           },
           "views": {
             "type": "integer",
-            "description": "Количество просмотрев события",
+            "description": "Количество просмотров события",
             "format": "int64",
             "example": 999
           }
@@ -2384,7 +2384,7 @@
           },
           "views": {
             "type": "integer",
-            "description": "Количество просмотрев события",
+            "description": "Количество просмотров события",
             "format": "int64",
             "example": 999
           }

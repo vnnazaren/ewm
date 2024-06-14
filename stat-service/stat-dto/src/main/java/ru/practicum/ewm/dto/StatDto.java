@@ -1,9 +1,6 @@
 package ru.practicum.ewm.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Класс DTO класса получения статистики STAT
@@ -11,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class StatDto {
 

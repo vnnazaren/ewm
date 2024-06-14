@@ -5,8 +5,10 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import static ru.practicum.ewm.dto.Const.DATE_TIME_FORMAT;
+
 /**
- * Класс DTO класса получения статистики EVENT
+ * Класс DTO класса получения статистики HIT
  */
 @Getter
 @Setter
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDto {
+public class HitDto {
 
     private String app;
 
@@ -22,6 +24,6 @@ public class EventDto {
 
     private String ip;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private LocalDateTime timestamp;
 }

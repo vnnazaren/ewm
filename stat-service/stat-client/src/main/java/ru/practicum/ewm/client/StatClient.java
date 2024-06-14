@@ -1,42 +1,43 @@
 package ru.practicum.ewm.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.ewm.dto.EventDto;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import ru.practicum.ewm.dto.HitDto;
+import ru.practicum.ewm.dto.StatDto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class StatClient extends BaseClient {
+@Component
+@RequiredArgsConstructor
+public class StatClient {
+    private final RestTemplate rest;
 
-    @Autowired
-    public StatClient(@Value("${stat-server.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
-                        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                        .build()
-        );
+    @Value("${stat-server.url}")
+    private String serverUrl;
+
+    public void saveHit(HitDto hitDto) {
+        rest.postForLocation(serverUrl.concat("/hit"), hitDto);
     }
 
-    public ResponseEntity<Object> saveHit(EventDto eventDto) {
-        return post("/hit", eventDto);
-    }
-
-    public ResponseEntity<Object> getStats(LocalDateTime start, LocalDateTime end, Boolean unique, List<String> uris) {
+    public List<StatDto> getStats(String start, String end, List<String> uris, Boolean unique) {
         Map<String, Object> parameters = Map.of(
                 "start", start,
                 "end", end,
-                "unique", unique,
-                "uris", uris
-        );
-        return get("/stats?start={start}&end={end}&unique={unique}&uris={uris}", parameters);
+                "uris", uris,
+                "unique", unique);
+
+        StatDto[] statistics = rest.getForObject(
+                serverUrl.concat("/stats?start={start}&end={end}&uris={uris}&unique={unique}"),
+                StatDto[].class,
+                parameters);
+
+        if (statistics == null) {
+            return List.of();
+        }
+
+        return List.of(statistics);
     }
 }

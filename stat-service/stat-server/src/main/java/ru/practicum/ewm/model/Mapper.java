@@ -2,7 +2,7 @@ package ru.practicum.ewm.model;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import ru.practicum.ewm.dto.EventDto;
+import ru.practicum.ewm.dto.HitDto;
 import ru.practicum.ewm.dto.StatDto;
 
 /**
@@ -11,12 +11,12 @@ import ru.practicum.ewm.dto.StatDto;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Mapper {
 
-    public static Event toEvent(final EventDto eventDto) {
-        return Event.builder()
-                .app(eventDto.getApp())
-                .uri(eventDto.getUri())
-                .ipAddress(eventDto.getIp())
-                .eventDate(eventDto.getTimestamp())
+    public static Hit toHit(final HitDto hitDto) {
+        return Hit.builder()
+                .app(hitDto.getApp())
+                .uri(hitDto.getUri())
+                .ipAddress(hitDto.getIp())
+                .hitDate(hitDto.getTimestamp())
                 .build();
     }
 

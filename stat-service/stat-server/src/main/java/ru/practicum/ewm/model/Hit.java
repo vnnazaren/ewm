@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Класс сохранения статистики EVENT
+ * Класс сохранения статистики HIT
  */
 @Getter
 @Setter
@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "events")
-public class Event {
+@Table(name = "hits")
+public class Hit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class Event {
     @Column(name = "ip_address", nullable = false)
     private String ipAddress;
 
-    @Column(name = "event_date", nullable = false)
+    @Column(name = "hit_date", nullable = false)
     @JsonFormat
-    private LocalDateTime eventDate;
+    private LocalDateTime hitDate;
 }
