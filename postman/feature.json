@@ -435,7 +435,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/:userId/comments?eventId=1",
+					"raw": "http://localhost:8080/users/:userId/comments?eventId=107",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -449,13 +449,13 @@
 					"query": [
 						{
 							"key": "eventId",
-							"value": "1"
+							"value": "107"
 						}
 					],
 					"variable": [
 						{
 							"key": "userId",
-							"value": "1"
+							"value": "138"
 						}
 					]
 				}
@@ -500,7 +500,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/users/:userId/requests?eventId=1",
+					"raw": "http://localhost:8080/users/:userId/requests?eventId=107",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -514,14 +514,14 @@
 					"query": [
 						{
 							"key": "eventId",
-							"value": "1",
+							"value": "107",
 							"description": "(Required) id события"
 						}
 					],
 					"variable": [
 						{
 							"key": "userId",
-							"value": "2",
+							"value": "139",
 							"description": "(Required) id текущего пользователя"
 						}
 					]
@@ -596,11 +596,11 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "1"
+							"value": "138"
 						},
 						{
 							"key": "eventId",
-							"value": "1"
+							"value": "107"
 						}
 					]
 				},
@@ -639,7 +639,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/:userId/comments?eventId=1",
+					"raw": "http://localhost:8080/users/:userId/comments?eventId=107",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -653,13 +653,13 @@
 					"query": [
 						{
 							"key": "eventId",
-							"value": "1"
+							"value": "107"
 						}
 					],
 					"variable": [
 						{
 							"key": "userId",
-							"value": "2"
+							"value": "139"
 						}
 					]
 				}
@@ -702,7 +702,7 @@
 					"variable": [
 						{
 							"key": "eventId",
-							"value": "1"
+							"value": "107"
 						}
 					]
 				}
@@ -744,7 +744,7 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "1"
+							"value": "138"
 						},
 						{
 							"key": "commentId",
@@ -790,7 +790,7 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "2"
+							"value": "139"
 						},
 						{
 							"key": "comId",
@@ -836,7 +836,7 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "1"
+							"value": "138"
 						},
 						{
 							"key": "commentId",
