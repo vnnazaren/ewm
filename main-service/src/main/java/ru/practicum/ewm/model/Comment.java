@@ -1,10 +1,7 @@
 package ru.practicum.ewm.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +9,8 @@ import java.time.LocalDateTime;
 /**
  * Класс комментария события COMMENT
  */
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -51,7 +49,7 @@ public class Comment {
     /**
      * Дата и время создания комментария
      */
-    @Column(name = "created", nullable = false)
+    @Column(name = "created_on", nullable = false)
     @JsonFormat
-    private LocalDateTime created;
+    private LocalDateTime createdOn;
 }

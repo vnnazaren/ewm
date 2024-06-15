@@ -73,9 +73,9 @@ Table "COMMENTS" {
   "TEXT" VARCHAR(2000) [not null]
 }
 
-Ref "FK_EVENT_COMMENTS":"EVENTS"."ID" < "COMMENTS"."EVENT_ID" [delete: cascade]
+Ref "COMMENTS":"EVENTS"."ID" < "COMMENTS"."EVENT_ID" [delete: cascade]
 
-Ref "FK_USER_COMMENTS":"USERS"."ID" < "COMMENTS"."EVENT_ID" [delete: cascade]
+Ref "COMMENTS":"USERS"."ID" < "COMMENTS"."AUTHOR_ID" [delete: cascade]
 
 Ref:"CATEGORIES"."ID" < "EVENTS"."CATEGORY_ID"
 

@@ -17,7 +17,7 @@ public class CommentMapper {
                 .eventId(comment.getEvent().getId())
                 .authorId(comment.getAuthor().getId())
                 .text(comment.getText())
-                .createdOn(comment.getCreated())
+                .createdOn(comment.getCreatedOn())
                 .build();
     }
 
@@ -30,7 +30,7 @@ public class CommentMapper {
                         .id(commentDto.getId())
                         .build())
                 .text(commentDto.getText())
-                .created(LocalDateTime.now())
+                .createdOn(LocalDateTime.now())
                 .build();
     }
 }

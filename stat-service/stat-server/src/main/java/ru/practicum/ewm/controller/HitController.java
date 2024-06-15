@@ -26,7 +26,7 @@ public class HitController {
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
     public void saveHit(@RequestBody HitDto hitDtoRequest) {
-        log.info("POST /hit - hitDtoRequest: {}", hitDtoRequest);
+        log.info("HitController: POST /hit - hitDtoRequest: {}", hitDtoRequest);
         hitService.saveHit(hitDtoRequest);
     }
 
@@ -36,7 +36,7 @@ public class HitController {
             @RequestParam @DateTimeFormat(pattern = DATE_TIME_FORMAT) LocalDateTime end,
             @RequestParam(defaultValue = "false") boolean unique,
             @RequestParam(required = false) List<String> uris) {
-        log.info("GET /stats - uris: {}, unique: {}, start: {}, end: {}", uris, unique, start, end);
+        log.info("HitController: GET /stats?start={}&end={}&uris={}&unique={}", uris, unique, start, end);
         if (uris == null) {
             uris = List.of();
         }

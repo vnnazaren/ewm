@@ -79,7 +79,7 @@ public class EventServiceImpl implements EventService {
         EventFullDto eventFullDto = EventMapper.toEventFullDto(event);
 
         Pageable page = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdOn"));
-        List<Comment> comments = commentRepository.findAllByEventIdOrderByCreatedDesc(eventId, page);
+        List<Comment> comments = commentRepository.findAllByEventIdOrderByCreatedOnDesc(eventId, page);
 
         eventFullDto.setComments(comments.stream()
                 .map(CommentMapper::toCommentDto)
@@ -95,7 +95,7 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Событие с ID %s не найдено.",
                         eventId)));
 
-        if (event.getInitiator().equals(user)) {
+        if (event.getInitiator().getId().equals(user.getId())) {
             return EventMapper.toEventFullDto(event);
         } else {
             throw new ConflictException(String.format("Пользователь с ID %s не создавал событие с ID %s.",

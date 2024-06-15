@@ -42,7 +42,9 @@ public class CommentServiceImpl implements CommentService {
         User user = UserMapper.toUser(userService.readUser(userId));
         Event event = EventMapper.toEvent(eventService.readEvent(eventId));
 
-        requestService.checkRequestByUserIdAndEventId(userId, eventId);
+        if (!event.getInitiator().getId().equals(user.getId())) {
+            requestService.checkRequestByUserIdAndEventId(userId, eventId);
+        }
 
         if (!Objects.equals(event.getState(), EventStatus.PUBLISHED)) {
             throw new ConflictException("Статус события должен быть PUBLISHED.");
@@ -77,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
         eventService.readEvent(eventId);
 
         Pageable page = PageRequest.of(from, size);
-        List<Comment> comments = commentRepository.findAllByEventIdOrderByCreatedDesc(eventId, page);
+        List<Comment> comments = commentRepository.findAllByEventIdOrderByCreatedOnDesc(eventId, page);
 
         return comments.stream()
                 .map(CommentMapper::toCommentDto)

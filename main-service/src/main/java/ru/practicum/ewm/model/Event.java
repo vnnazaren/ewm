@@ -1,10 +1,7 @@
 package ru.practicum.ewm.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.practicum.ewm.util.EventStatus;
 
 import javax.persistence.*;
@@ -13,7 +10,8 @@ import java.time.LocalDateTime;
 /**
  * Класс события EVENT
  */
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,21 +29,18 @@ public class Event {
     /**
      * Краткое описание
      */
-//    @Column(name = "annotation", nullable = false)
     @Column(name = "annotation")
     private String annotation;
 
     /**
      * Количество одобренных заявок на участие в данном событии
      */
-//    @Column(name = "confirmed_requests", nullable = false)
     @Column(name = "confirmed_requests")
     private Integer confirmedRequests;
 
     /**
      * Дата и время создания события
      */
-//    @Column(name = "created_on", nullable = false)
     @Column(name = "created_on")
     @JsonFormat
     private LocalDateTime createdOn;
@@ -53,14 +48,12 @@ public class Event {
     /**
      * Полное описание события
      */
-//    @Column(name = "description", nullable = false)
     @Column(name = "description")
     private String description;
 
     /**
      * Дата и время на которые намечено событие
      */
-//    @Column(name = "event_date", nullable = false)
     @Column(name = "event_date")
     @JsonFormat
     private LocalDateTime eventDate;
@@ -68,14 +61,12 @@ public class Event {
     /**
      * Нужно ли оплачивать участие
      */
-//    @Column(name = "paid", nullable = false)
     @Column(name = "paid")
     private Boolean paid;
 
     /**
      * Ограничение на количество участников. Значение 0 - означает отсутствие ограничения
      */
-//    @Column(name = "participant_limit", nullable = false)
     @Column(name = "participant_limit")
     private Integer participantLimit;
 
@@ -89,7 +80,6 @@ public class Event {
     /**
      * Нужна ли пре-модерация заявок на участие
      */
-//    @Column(name = "request_moderation", nullable = false)
     @Column(name = "request_moderation")
     private Boolean requestModeration;
 
@@ -97,21 +87,18 @@ public class Event {
      * Список состояний жизненного цикла события
      */
     @Enumerated(EnumType.STRING)
-//    @Column(name = "state", nullable = false)
     @Column(name = "state")
     private EventStatus state;
 
     /**
      * Заголовок
      */
-//    @Column(name = "title", nullable = false)
     @Column(name = "title")
     private String title;
 
     /**
      * Количество просмотров события
      */
-//    @Column(name = "views", nullable = false)
     @Column(name = "views")
     private Integer views;
 
