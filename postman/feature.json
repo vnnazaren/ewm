@@ -211,7 +211,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"annotation\": \"abcd annotation. abcd annotation. abcd annotation.\",\n    \"category\": 1,\n    \"description\": \"abcd description. abcd description. abcd description.\",\n    \"eventDate\": \"2024-10-16 18:00:00\",\n    \"location\": {\n        \"lat\": -16.10,\n        \"lon\": 19.77\n    },\n    \"paid\": \"false\",\n    \"participantLimit\": \"20\",\n    \"requestModeration\": \"true\",\n    \"title\": \"abcd title.\"\n}",
+					"raw": "{\n    \"annotation\": \"abcd annotation. abcd annotation. abcd annotation.\",\n    \"category\": 123,\n    \"description\": \"abcd description. abcd description. abcd description.\",\n    \"eventDate\": \"2024-10-16 18:00:00\",\n    \"location\": {\n        \"lat\": -16.10,\n        \"lon\": 19.77\n    },\n    \"paid\": \"false\",\n    \"participantLimit\": \"20\",\n    \"requestModeration\": \"true\",\n    \"title\": \"abcd title.\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -572,7 +572,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"requestIds\": [\n    1\n  ],\n  \"status\": \"CONFIRMED\"\n}",
+					"raw": "{\n  \"requestIds\": [\n    14\n  ],\n  \"status\": \"CONFIRMED\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
