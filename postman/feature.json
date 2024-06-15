@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6f8f5f91-1805-4f98-b556-7f80917d3ccc",
+		"_postman_id": "0af75b69-e354-4aab-95ba-915b052f498e",
 		"name": "feature_comments",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "34698198"
@@ -233,7 +233,7 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "1"
+							"value": "138"
 						}
 					]
 				}
@@ -269,7 +269,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/:userId/comments?eventId=1",
+					"raw": "http://localhost:8080/users/:userId/comments?eventId=107",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -283,13 +283,13 @@
 					"query": [
 						{
 							"key": "eventId",
-							"value": "1"
+							"value": "107"
 						}
 					],
 					"variable": [
 						{
 							"key": "userId",
-							"value": "1"
+							"value": "138"
 						}
 					]
 				}
@@ -325,7 +325,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/:userId/comments?eventId=1",
+					"raw": "http://localhost:8080/users/:userId/comments?eventId=107",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -339,13 +339,13 @@
 					"query": [
 						{
 							"key": "eventId",
-							"value": "1"
+							"value": "107"
 						}
 					],
 					"variable": [
 						{
 							"key": "userId",
-							"value": "2"
+							"value": "139"
 						}
 					]
 				}
@@ -397,7 +397,7 @@
 					"variable": [
 						{
 							"key": "eventId",
-							"value": "1"
+							"value": "107"
 						}
 					]
 				}
@@ -883,7 +883,7 @@
 					"variable": [
 						{
 							"key": "eventId",
-							"value": "1"
+							"value": "107"
 						}
 					]
 				}
