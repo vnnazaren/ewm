@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static ru.practicum.ewm.util.Const.DATE_TIME_FORMAT;
 
@@ -64,4 +65,9 @@ public class EventShortDto {
      * Инициатор
      */
     private UserShortDto initiator;
+
+    /**
+     * Комментарии к событию
+     */
+    private List<CommentDto> comments;
 }

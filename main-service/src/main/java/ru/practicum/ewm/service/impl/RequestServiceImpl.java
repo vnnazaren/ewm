@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.dto.EventRequestStatusUpdateRequest;
 import ru.practicum.ewm.dto.EventRequestStatusUpdateResult;
 import ru.practicum.ewm.dto.ParticipationRequestDto;
+import ru.practicum.ewm.exceptions.AccessException;
 import ru.practicum.ewm.exceptions.BadRequestException;
 import ru.practicum.ewm.exceptions.ConflictException;
 import ru.practicum.ewm.exceptions.EntityNotFoundException;
@@ -25,6 +26,7 @@ import ru.practicum.ewm.util.EventStatus;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -43,17 +45,17 @@ public class RequestServiceImpl implements RequestService {
         Event event = EventMapper.toEvent(eventService.readEvent(eventId));
 
         if (userId.equals(event.getInitiator().getId())) {
-            throw new ConflictException(String.format("Инициатор запроса (id %s) " +
-                    "не должен создавать запрос на своё событие (id %s).", userId, eventId));
+            throw new ConflictException(String.format("Инициатор запроса (ID %s) " +
+                    "не должен создавать запрос на своё событие (ID %s).", userId, eventId));
         }
 
         if (!requestRepository.findByRequesterIdAndEventId(userId, eventId).isEmpty()) {
             throw new ConflictException(String.format("Попытка создать повторный запрос " +
-                    "на участие в событии (id %s) от пользователя (id %s)", userId, eventId));
+                    "на участие в событии (ID %s) от пользователя (ID %s).", userId, eventId));
         }
 
         if (event.getState() != EventStatus.PUBLISHED) {
-            throw new ConflictException("Нельзя добавить запрос на участие в неопубликованном событии");
+            throw new ConflictException("Попытка добавить запрос на участие в неопубликованном событии.");
         }
 
         Request request = Request.builder()
@@ -77,7 +79,7 @@ public class RequestServiceImpl implements RequestService {
                 request.setStatus(EventStatus.PENDING);
             }
         } else {
-            throw new ConflictException(String.format("Мест для участия в событии (id '%s') больше нет.",
+            throw new ConflictException(String.format("Мест для участия в событии с ID %s больше нет.",
                     eventId));
         }
 
@@ -94,14 +96,9 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public List<ParticipationRequestDto> readRequestsByUserId(Long userId, Long eventId) {
+    public List<ParticipationRequestDto> readRequestsByEventInitiatorId(Long userId, Long eventId) {
         User user = UserMapper.toUser(userService.readUser(userId));
         Event event = EventMapper.toEvent(eventService.readEvent(eventId));
-
-        User user2 = event.getInitiator();
-
-        System.out.println(user);
-        System.out.println(user2);
 
         if (event.getInitiator().getId().equals(user.getId())) {
             return requestRepository.findAllByEvent(event).stream()
@@ -125,7 +122,7 @@ public class RequestServiceImpl implements RequestService {
         int participantLimit = event.getParticipantLimit();
 
         if (participantLimit != 0 && confirmedRequests >= participantLimit) {
-            throw new ConflictException(String.format("Больше нет мест для участия в событии с ID %s",
+            throw new ConflictException(String.format("Больше нет мест для участия в событии с ID %s.",
                     event.getId()));
         }
 
@@ -186,5 +183,17 @@ public class RequestServiceImpl implements RequestService {
         request.setStatus(EventStatus.CANCELED);
 
         return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
+    }
+
+    @Override
+    public void checkRequestByUserIdAndEventId(Long userId, Long eventId) {
+
+        Optional<Request> optionalRequest = requestRepository.findByEventIdAndRequesterId(eventId, userId);
+
+        if (optionalRequest.isEmpty()
+                || !optionalRequest.get().getStatus().equals(EventStatus.CONFIRMED)) {
+            throw new AccessException(String.format("Пользователь с ID %s не участвовал в событии с ID %s.",
+                    userId, eventId));
+        }
     }
 }

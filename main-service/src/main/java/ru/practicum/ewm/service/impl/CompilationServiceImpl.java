@@ -3,6 +3,7 @@ package ru.practicum.ewm.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.dto.CompilationDto;
@@ -53,7 +54,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public List<CompilationDto> readCompilations(Boolean pinned, Integer from, Integer size) {
-        PageRequest page = PageRequest.of(from / size, size);
+        Pageable page = PageRequest.of(from / size, size);
 
         return compilationRepository.findAllByPinned(pinned, page).stream()
                 .map(CompilationMapper::toCompilationDto)

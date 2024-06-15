@@ -9,6 +9,7 @@ import ru.practicum.ewm.util.EventStatus;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static ru.practicum.ewm.util.Const.DATE_TIME_FORMAT;
 
@@ -108,4 +109,9 @@ public class EventFullDto {
      */
     @NotNull(message = "Место проведения события должно быть указано.")
     private LocationDto location;
+
+    /**
+     * Комментарии к событию
+     */
+    private List<CommentDto> comments;
 }

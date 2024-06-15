@@ -13,7 +13,7 @@ public interface RequestService {
 
     ParticipationRequestDto createRequests(Long userId, Long eventId);
 
-    List<ParticipationRequestDto> readRequestsByUserId(Long userId, Long eventId);
+    List<ParticipationRequestDto> readRequestsByEventInitiatorId(Long userId, Long eventId);
 
     List<ParticipationRequestDto> readRequests(Long userId);
 
@@ -22,4 +22,6 @@ public interface RequestService {
                                                   EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest);
 
     ParticipationRequestDto cancelRequests(Long userId, Long requestId);
+
+    void checkRequestByUserIdAndEventId(Long userId, Long eventId);
 }

@@ -97,7 +97,7 @@ public class PrivateEventsController {
     public List<ParticipationRequestDto> readRequestsByUserId(@PathVariable Long userId,
                                                               @PathVariable Long eventId) {
         log.info("PrivateEventsController: POST /users/{}/events/{}/requests", userId, eventId);
-        return requestService.readRequestsByUserId(userId, eventId);
+        return requestService.readRequestsByEventInitiatorId(userId, eventId);
     }
 
     /**

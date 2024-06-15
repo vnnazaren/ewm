@@ -2,6 +2,7 @@ package ru.practicum.ewm.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.dto.NewUserRequest;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> readUsers(List<Long> ids, Integer from, Integer size) {
-        PageRequest page = PageRequest.of(from > 0 && size > 0 ? from / size : 0, size);
+        Pageable page = PageRequest.of(from > 0 && size > 0 ? from / size : 0, size);
 
         if (ids == null || ids.isEmpty()) {
             return userRepository.findAll(page).stream()

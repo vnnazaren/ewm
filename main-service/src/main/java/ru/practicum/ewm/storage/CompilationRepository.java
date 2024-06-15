@@ -17,5 +17,5 @@ public interface CompilationRepository extends JpaRepository<Compilation, Long> 
             "from Compilation as c " +
             "where (:pinned is null or :pinned = c.pinned)") // попробовать переделать на спецификации
     List<Compilation> findAllByPinned(@Param("pinned") Boolean pinned,
-                                      Pageable pageable);
+                                      Pageable page);
 }
