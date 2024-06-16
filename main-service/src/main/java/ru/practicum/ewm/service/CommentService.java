@@ -1,6 +1,7 @@
 package ru.practicum.ewm.service;
 
 import ru.practicum.ewm.dto.CommentDto;
+import ru.practicum.ewm.model.Comment;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public interface CommentService {
 
     CommentDto createComment(Long userId, Long eventId, CommentDto commentDto);
+
+    Comment readComment(Long commentId);
 
     List<CommentDto> readAllCommentsByEventId(Long eventId, Integer from, Integer size);
 

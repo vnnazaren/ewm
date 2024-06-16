@@ -38,6 +38,7 @@ public class CommentServiceImpl implements CommentService {
     private final EventService eventService;
     private final RequestService requestService;
 
+    @Override
     public CommentDto createComment(Long userId, Long eventId, CommentDto commentDto) {
         User user = UserMapper.toUser(userService.readUser(userId));
         Event event = EventMapper.toEvent(eventService.readEvent(eventId));
@@ -64,6 +65,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Transactional(readOnly = true)
+    @Override
     public Comment readComment(Long commentId) {
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (comment.isPresent()) {
@@ -75,6 +77,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Transactional(readOnly = true)
+    @Override
     public List<CommentDto> readAllCommentsByEventId(Long eventId, Integer from, Integer size) {
         eventService.readEvent(eventId);
 
@@ -86,6 +89,7 @@ public class CommentServiceImpl implements CommentService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public CommentDto updateCommentById(Long commentId, Long userId, CommentDto commentDto) {
         Comment comment = readComment(commentId);
 
@@ -100,11 +104,13 @@ public class CommentServiceImpl implements CommentService {
         return CommentMapper.toCommentDto(savedComment);
     }
 
+    @Override
     public void deleteCommentByAdmin(Long commentId) {
         readComment(commentId);
         commentRepository.deleteById(commentId);
     }
 
+    @Override
     public void deleteCommentByUser(Long commentId, Long userId) {
         Comment comment = readComment(commentId);
 
