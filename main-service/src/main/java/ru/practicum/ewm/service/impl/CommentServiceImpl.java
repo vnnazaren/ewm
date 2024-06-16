@@ -24,8 +24,6 @@ import ru.practicum.ewm.storage.CommentRepository;
 import ru.practicum.ewm.util.EventStatus;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -47,15 +45,13 @@ public class CommentServiceImpl implements CommentService {
             requestService.checkRequestByUserIdAndEventId(userId, eventId);
         }
 
-        if (!Objects.equals(event.getState(), EventStatus.PUBLISHED)) {
+        if (event.getState() != EventStatus.PUBLISHED) {
             throw new ConflictException("Статус события должен быть PUBLISHED.");
         }
 
-        Optional<Comment> foundComment = commentRepository.findByEventIdAndAuthorId(eventId, userId);
-        if (foundComment.isPresent()) {
-            throw new AccessException(String.format("Пользователь с ID %s уже оставлял комментарий к событию с ID %s.",
-                    userId, eventId));
-        }
+        commentRepository.findByEventIdAndAuthorId(eventId, userId)
+                .orElseThrow(() -> new AccessException(String.format("Пользователь с ID %s уже оставлял комментарий к событию с ID %s.",
+                        userId, eventId)));
 
         Comment comment = CommentMapper.toComment(commentDto);
         comment.setAuthor(user);
@@ -67,13 +63,9 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     @Override
     public Comment readComment(Long commentId) {
-        Optional<Comment> comment = commentRepository.findById(commentId);
-        if (comment.isPresent()) {
-            return comment.get();
-        } else {
-            throw new EntityNotFoundException(String.format("Комментарий с ID %s не найден.",
-                    commentId));
-        }
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Комментарий с ID %s не найден.",
+                        commentId)));
     }
 
     @Transactional(readOnly = true)
