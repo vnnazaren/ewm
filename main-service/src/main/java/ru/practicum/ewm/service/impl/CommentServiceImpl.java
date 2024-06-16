@@ -49,9 +49,10 @@ public class CommentServiceImpl implements CommentService {
             throw new ConflictException("Статус события должен быть PUBLISHED.");
         }
 
-        commentRepository.findByEventIdAndAuthorId(eventId, userId)
-                .orElseThrow(() -> new AccessException(String.format("Пользователь с ID %s уже оставлял комментарий к событию с ID %s.",
-                        userId, eventId)));
+        if (commentRepository.findByEventIdAndAuthorId(eventId, userId).isPresent()) {
+            throw new AccessException(String.format("Пользователь с ID %s уже оставлял комментарий к событию с ID %s.",
+                    userId, eventId));
+        }
 
         Comment comment = CommentMapper.toComment(commentDto);
         comment.setAuthor(user);
