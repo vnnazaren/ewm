@@ -36,6 +36,19 @@ public class ErrorHandler {
                         .build());
     }
 
+    @ExceptionHandler({AccessException.class})
+    public ResponseEntity<ErrorResponse> handleAccessException(Exception e) {
+        log.info("HttpStatus.FORBIDDEN (403). {}", e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ErrorResponse.builder()
+                        .message(e.getMessage())
+                        .reason("Conflict.")
+                        .status(HttpStatus.CONFLICT.name())
+                        .timestamp(LocalDateTime.now().format(FORMATTER))
+                        .build());
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(Exception e) {
         log.info("HttpStatus.NOT_FOUND (404). {}", e.getMessage());

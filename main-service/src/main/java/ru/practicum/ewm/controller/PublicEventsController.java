@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.dto.CommentDto;
 import ru.practicum.ewm.dto.EventFullDto;
 import ru.practicum.ewm.dto.EventShortDto;
+import ru.practicum.ewm.service.CommentService;
 import ru.practicum.ewm.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import java.util.List;
 @RequestMapping(path = "/events")
 public class PublicEventsController {
     private final EventService eventService;
+    private final CommentService commentService;
 
     /**
      * Получение подробной информации об опубликованном событии по его идентификатору<br/>
@@ -74,5 +77,21 @@ public class PublicEventsController {
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, httpServletRequest.getRequestURI());
         return eventService.searchEventsByUser(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
                 from, size, httpServletRequest.getRemoteAddr(), httpServletRequest.getRequestURI());
+    }
+
+    /**
+     * Получение всех комментариев во событию
+     *
+     * @param eventId Идентификатор события
+     * @param from Количество событий, которые нужно пропустить для формирования текущего набора. Значение по умолчанию: 0
+     * @param size Количество событий в наборе. Значение по умолчанию: 10
+     * @return Коллекция объектов DTO с комментариями
+     */
+    @GetMapping("/{eventId}/comments")
+    public List<CommentDto> getEventComments(@PathVariable Long eventId,
+                                             @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                             @RequestParam(name = "size",defaultValue = "10") @Positive Integer size) {
+        log.info("EventPublicController: GET /events/{}/comments?from={}&size={}", eventId, from, size);
+        return commentService.readAllCommentsByEventId(eventId, from, size);
     }
 }

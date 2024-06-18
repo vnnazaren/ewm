@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Класс исключение "Некорректный параметр"
  */
-@ResponseStatus(HttpStatus.CONFLICT)
-public class WrongParameterException extends RuntimeException {
-    public WrongParameterException(String message) {
+@ResponseStatus(HttpStatus.FORBIDDEN)
+public class AccessException extends RuntimeException {
+    public AccessException(String message) {
         super(message);
     }
 }

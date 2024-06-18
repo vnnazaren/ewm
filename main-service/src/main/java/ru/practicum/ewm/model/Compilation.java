@@ -1,18 +1,15 @@
 package ru.practicum.ewm.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
-
 /**
  * Класс "Подборка событий" - COMPILATION
  */
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,6 +37,9 @@ public class Compilation {
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
+    /**
+     * Коллекция с событиями входящими в подборку
+     */
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "compilations_events",
             joinColumns = @JoinColumn(name = "compilation_id", referencedColumnName = "id"),

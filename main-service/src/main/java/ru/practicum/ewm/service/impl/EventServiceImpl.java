@@ -2,6 +2,7 @@ package ru.practicum.ewm.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -11,15 +12,14 @@ import ru.practicum.ewm.dto.*;
 import ru.practicum.ewm.exceptions.BadRequestException;
 import ru.practicum.ewm.exceptions.ConflictException;
 import ru.practicum.ewm.exceptions.EntityNotFoundException;
-import ru.practicum.ewm.mapper.CategoryMapper;
-import ru.practicum.ewm.mapper.EventMapper;
-import ru.practicum.ewm.mapper.LocationMapper;
-import ru.practicum.ewm.mapper.UserMapper;
+import ru.practicum.ewm.mapper.*;
+import ru.practicum.ewm.model.Comment;
 import ru.practicum.ewm.model.Event;
 import ru.practicum.ewm.model.User;
 import ru.practicum.ewm.service.CategoryService;
 import ru.practicum.ewm.service.EventService;
 import ru.practicum.ewm.service.UserService;
+import ru.practicum.ewm.storage.CommentRepository;
 import ru.practicum.ewm.storage.EventRepository;
 import ru.practicum.ewm.util.EventState;
 import ru.practicum.ewm.util.EventStatus;
@@ -39,6 +39,7 @@ public class EventServiceImpl implements EventService {
     private final UserService userService;
     private final EventRepository eventRepository;
     private final CategoryService categoryService;
+    private final CommentRepository commentRepository;
     private final StatClient statClient;
 
     @Override
@@ -69,12 +70,22 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventFullDto readEventById(Long eventId, String ip, String uri) {
         Event event = eventRepository.findByIdAndState(eventId, EventStatus.PUBLISHED)
-                .orElseThrow(() -> new EntityNotFoundException("Event not found"));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(
+                        "Событие с ID %s не найдено.", eventId)));
 
         saveHitToStat(ip, uri);
         updateViewsOfEvents(List.of(event));
 
-        return EventMapper.toEventFullDto(event);
+        EventFullDto eventFullDto = EventMapper.toEventFullDto(event);
+
+        Pageable page = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdOn"));
+        List<Comment> comments = commentRepository.findAllByEventIdOrderByCreatedOnDesc(eventId, page);
+
+        eventFullDto.setComments(comments.stream()
+                .map(CommentMapper::toCommentDto)
+                .collect(Collectors.toList()));
+
+        return eventFullDto;
     }
 
     @Override
@@ -84,7 +95,7 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Событие с ID %s не найдено.",
                         eventId)));
 
-        if (event.getInitiator().equals(user)) {
+        if (event.getInitiator().getId().equals(user.getId())) {
             return EventMapper.toEventFullDto(event);
         } else {
             throw new ConflictException(String.format("Пользователь с ID %s не создавал событие с ID %s.",
@@ -95,7 +106,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventShortDto> readEventsByUserId(Long userId, Integer from, Integer size) {
         User user = UserMapper.toUser(userService.readUser(userId));
-        PageRequest page = PageRequest.of(from > 0 && size > 0 ? from / size : 0, size,
+        Pageable page = PageRequest.of(from > 0 && size > 0 ? from / size : 0, size,
                 Sort.by(Sort.Direction.ASC, "id"));
 
         return eventRepository.findAllByInitiator(user, page).stream()
@@ -115,7 +126,7 @@ public class EventServiceImpl implements EventService {
 
         checkCorrectDates(startDate, endDate);
 
-        PageRequest page = PageRequest.of(from / size, size, Sort.by(
+        Pageable page = PageRequest.of(from / size, size, Sort.by(
                 Sort.Direction.ASC, "id"));
 
         Specification<Event> specification = Specification.where(null);
@@ -161,7 +172,7 @@ public class EventServiceImpl implements EventService {
         checkCorrectDates(startDate, endDate);
         saveHitToStat(ip, uri);
 
-        PageRequest page = PageRequest.of(from / size, size, Sort.by(
+        Pageable page = PageRequest.of(from / size, size, Sort.by(
                 Sort.Direction.ASC,
                 sort != null && sort.equalsIgnoreCase("event_date") ? "eventDate" : "views"));
 
