@@ -40,4 +40,6 @@ public interface EventService {
     EventFullDto updateEventByUser(Long userId,
                                    Long eventId,
                                    UpdateEventUserRequest updateEventUserRequest);
+
+    void deleteEvent(Long eventId);
 }

@@ -372,6 +372,12 @@ public class EventServiceImpl implements EventService {
         return EventMapper.toEventFullDto(updatedEvent);
     }
 
+    @Override
+    @Transactional
+    public void deleteEvent(Long eventId) {
+        eventRepository.deleteById(eventId);
+    }
+
     private void checkTimeBeforeEvent(LocalDateTime startDate, int minHours) {
         if (startDate.isBefore(LocalDateTime.now().plusHours(minHours))) {
             throw new BadRequestException(String.format("До начала события менее %s ч.", minHours));

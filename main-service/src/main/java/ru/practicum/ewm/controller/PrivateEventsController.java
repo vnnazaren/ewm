@@ -119,4 +119,11 @@ public class PrivateEventsController {
         log.info("PrivateEventsController: PATCH /users/{}/events/{}/requests - {}", userId, eventId, eventRequestStatusUpdateRequest);
         return requestService.updateRequests(userId, eventId, eventRequestStatusUpdateRequest);
     }
+
+    @DeleteMapping("/{eventId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEvent(@PathVariable @Positive Long eventId,
+                            @PathVariable String userId) {
+        eventService.deleteEvent(eventId);
+    }
 }
